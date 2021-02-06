@@ -1,16 +1,16 @@
 # neatease_app
 
 一个利用闲暇时间自学flutter制作的网易云音乐App
-目前还很简陋，需要再接再厉优化代码修复BUG补充功能
+目前还很简陋，需要再接再厉优化代码修复BUG补充功能 
 
 ##参考：
 
 | 项目 | 链接 | 作者 |
 | :-----: | :----: | :----: |
 | 网易云API | [网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi/#/) | [GitHub](https://github.com/Binaryify/NeteaseCloudMusicApi) |
-| 不倦 | [不倦MUSIC](https://github.com/2697a/bujuan-sixbugs) | [SixBug](https://github.com/2697a) |
+| 不倦 | [不倦MUSIC](https://github.com/2697a/bujuan-sixbugs) | [SixBug](https://github.com/2697a) | 
 
-##配置环境：
+##配置环境： 
 ######flutter vision：1.22.3
 ```
 flutter doctor
