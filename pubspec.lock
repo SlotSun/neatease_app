@@ -282,13 +282,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutterstarrysky:
-    dependency: "direct main"
-    description:
-      path: flutter_starry_sky
-      relative: true
-    source: path
-    version: "0.0.1"
   fluttertoast:
     dependency: "direct main"
     description:

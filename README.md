@@ -3,28 +3,28 @@
 一个利用闲暇时间自学flutter制作的网易云音乐App
 目前还很简陋，需要再接再厉优化代码修复BUG补充功能 
 
-##参考：
+## 参考：
 
 | 项目 | 链接 | 作者 |
 | :-----: | :----: | :----: |
 | 网易云API | [网易云音乐 NodeJS 版 API](https://binaryify.github.io/NeteaseCloudMusicApi/#/) | [GitHub](https://github.com/Binaryify/NeteaseCloudMusicApi) |
 | 不倦 | [不倦MUSIC](https://github.com/2697a/bujuan-sixbugs) | [SixBug](https://github.com/2697a) | 
 
-##配置环境： 
-######flutter vision：1.22.3
+## 配置环境： 
+###### flutter vision：1.22.3
 ```
 flutter doctor
 ```
-######IDE:倾向于VS编码，AS调优
+###### IDE:倾向于VS编码，AS调优
 <font size=3>个人推荐将提示功能改为alt+. 直接嵌套widget方便快捷</font>
 
-######打包操作
+###### 打包操作
 ```
 https://www.jianshu.com/p/04eb531da438
 ```
 
 
-###计划完成的功能：
+### 计划完成的功能：
 
 - [x] 登录/退出登录
 - [x] 主页banner
