@@ -4,6 +4,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/api/netease_cloud_music.dart';
+import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/banner_entity.dart';
 import 'package:neatease_app/entity/highquality_entity.dart';
@@ -157,14 +158,17 @@ class NetUtils {
     }
     return talkEntity;
   }
+
   Future<void> getLoveSong(id) async {
 //  Response likeList = await HttpUtil().post('/likelist',data: {'uid': id});
     var likeList = await likelist({'uid': id}, await SelfUtil.getCookie());
-    var likeSongListEntity = LikeSongListEntity.fromJson(Map<String, dynamic>.from(likeList.body));
+    var likeSongListEntity =
+        LikeSongListEntity.fromJson(Map<String, dynamic>.from(likeList.body));
     List<String> likes = List();
     likeSongListEntity.ids.forEach((id) {
       likes.add('$id');
     });
+    //本地保存收藏歌曲列表
     SpUtil.putStringList(LIKE_SONGS, likes);
   }
 
@@ -216,7 +220,6 @@ class NetUtils {
     return top;
   }
 
-
 //根据ID删除创建歌单
   Future<bool> delPlayList(id) async {
     var del = false;
@@ -234,12 +237,25 @@ class NetUtils {
     return sub;
   }
 
+  ///收藏/取消收藏 歌曲
+  void subSongs(String id, bool like) async {
+    var answer =
+        await like_song({'id': id, 'like': like}, await SelfUtil.getCookie());
+    if (answer.status == 200) {
+      if (like) {
+        Application.loveList.add(id);
+      } else {
+        Application.loveList.remove(id);
+      }
+      SpUtil.putStringList(LIKE_SONGS, Application.loveList);
+    }
+  }
+
 //創建歌單
   Future<bool> createPlayList(name) async {
     bool create = false;
     var map = await _doHandler('/playlist/create', {'name': name});
-    if(map!=null)
-    create = map != null;
+    if (map != null) create = map != null;
     return create;
   }
 
@@ -258,11 +274,9 @@ class NetUtils {
     return history;
   }
 
-
-
   //获取歌词
   Future<LyricEntity> getLyric(id) async {
-    var answer = await lyric({'id': id},await SelfUtil.getCookie());
+    var answer = await lyric({'id': id}, await SelfUtil.getCookie());
 //  Response sheet = await HttpUtil().get('/lyric', data: {'id': id});
 //  var data = sheet.data;
 //  var jsonDecode2 = jsonDecode(data);q

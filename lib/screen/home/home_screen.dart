@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/provider/user_model.dart';
 import 'package:neatease_app/screen/mine/mine_page.dart';
@@ -30,10 +31,10 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((d) {
       if (mounted) {
-        _userModel = Provider.of<UserModel>(context,listen: false);
+        _userModel = Provider.of<UserModel>(context, listen: false);
         _userModel.isLogin();
+        Application.setLoveList();
       }
-      ;
     });
   }
 
@@ -64,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen>
                           left: 20,
                           child: Consumer<UserModel>(
                             builder: (_, model, __) {
-                              var user = model.user;
                               return Builder(builder: (context) {
                                 return GestureDetector(
                                   onTap: () {

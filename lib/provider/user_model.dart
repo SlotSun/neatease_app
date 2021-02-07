@@ -30,6 +30,7 @@ class UserModel with ChangeNotifier {
     NetUtils().loginByEmail(email, pwd).then((login) {
       if (login != null) {
         isLogin();
+        //添加喜爱歌曲id清单
         NetUtils().getLoveSong(login.account.id);
         Application.setLoveList();
         //待优化代码
@@ -41,8 +42,8 @@ class UserModel with ChangeNotifier {
 
         Application.loginState = true;
         Fluttertoast.showToast(msg: '登录成功！');
-        // Provider.of<PlayListModel>(context).user = login;
-        //使用完要解锁
+        //应该将当前歌单用户的歌单缓存在本地，提高打开效率：待优化
+
         NavigatorUtil.goHomePage(context);
       } else {
         Fluttertoast.showToast(msg: '登录失败请重新尝试！');

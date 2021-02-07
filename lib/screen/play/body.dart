@@ -33,10 +33,6 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
   AnimationController _stylusController; //唱针控制器
   Animation<double> _stylusAnimation;
   int switchIndex = 0; //用于切换歌词
-  //初始化播放器
-
-  //是否收藏
-  bool _isFavorited = false;
 
   //当前播放进度
   //定义一个list存取歌单
@@ -49,10 +45,13 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    //专辑封面旋转
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 20));
+    //磁吸旋转
     _stylusController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    //磁吸旋转角度
     _stylusAnimation =
         Tween<double>(begin: -0.03, end: -0.10).animate(_stylusController);
     _controller.addStatusListener((status) {
@@ -188,11 +187,17 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                         child: Row(
                           children: <Widget>[
                             IconButton(
-                              color: _isFavorited? Colors.red : Colors.grey,
-                              icon: Icon(_isFavorited
+                              color: curSong.like ? Colors.red : Colors.grey,
+                              icon: Icon(curSong.like
                                   ? Icons.favorite
                                   : Icons.favorite_border),
-                              onPressed: () {},
+                              onPressed: () {
+                                //应该继续修正用户播放列表的数据，待修复
+                                //如果当前不喜欢应该传喜欢收藏
+                                NetUtils().subSongs('${curSong.id}', !curSong.like);
+                                curSong.like = !curSong.like;
+                                setState(() {});
+                              },
                             ),
                             IconButton(
                               color: Colors.grey,
@@ -305,6 +310,7 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                                 mv: d.mv,
                                 id: '${d.id}',
                                 name: d.name,
+                                like: d.like,
                                 singer: d.singer,
                               ),
                               onTap: () {
