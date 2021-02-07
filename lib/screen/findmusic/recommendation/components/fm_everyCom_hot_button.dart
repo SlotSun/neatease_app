@@ -91,7 +91,9 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    NavigatorUtil.goSheetDetailPage(context, 3778678);
+                  },
                   icon: SvgPicture.asset('assets/icons/round_rank_fill.svg'),
                 ),
               ),
