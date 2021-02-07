@@ -159,6 +159,19 @@ class NetUtils {
     return talkEntity;
   }
 
+  ///新版获取评论：可选参数：pageNo（分页参数） pageSize（分页参数：数据） sortType（ 排序方式,1:按推荐排序,2:按热度排序,3:按时间排序）
+  ///cursor（当sortType为3时且页数不是第一页时需传入,值为上一条数据的time）
+  Future<SongTalkEntity> getNewTalkCommants(int type, id,
+      {@required Map<String, dynamic> params}) async {
+    var songTalkEntity;
+    var map = await _doHandler('/comment/new',{'id':id,'type':type,params:params});
+    if(map!=null){
+      songTalkEntity = SongTalkEntity.fromJson(map);
+    }
+    return songTalkEntity;
+
+  }
+
   Future<void> getLoveSong(id) async {
 //  Response likeList = await HttpUtil().post('/likelist',data: {'uid': id});
     var likeList = await likelist({'uid': id}, await SelfUtil.getCookie());

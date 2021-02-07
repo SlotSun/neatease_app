@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neatease_app/application.dart';
+import 'package:neatease_app/entity/comment_head.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_list_model.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
 import 'package:neatease_app/util/cache_image.dart';
+import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/net_util.dart';
 import 'package:neatease_app/widget/common_text_style.dart';
 import 'package:neatease_app/widget/h_empty_view.dart';
@@ -208,14 +210,15 @@ class _SheetDetailState extends State<SheetDetail> {
                                           'assets/images/icon_comment.png',
                                           '${sheet == null ? "评论" : sheet.commentCount}',
                                           () {
-                                        // NavigatorUtil.goCommentPage(context,
-                                        //     data: CommentHead(
-                                        //         _data.coverImgUrl,
-                                        //         _data.name,
-                                        //         _data.creator.nickname,
-                                        //         _data.commentCount,
-                                        //         _data.id,
-                                        //         CommentType.playList.index));
+                                        NavigatorUtil.goCommentPage(context,
+                                            data: CommentHead(
+                                              sheet.coverImgUrl,
+                                              sheet.name,
+                                              sheet.creator.nickname,
+                                              sheet.commentCount,
+                                              '${sheet.id}',
+                                               2,
+                                            ));
                                       }),
                                       FooterTabWidget(
                                           'assets/images/icon_share.png',

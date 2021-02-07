@@ -118,6 +118,7 @@ enum TopType { BS, NEW, YC, HOT }
 enum PlayModeType { REPEAT, REPEAT_ONE, SHUFFLE }
 enum OpenType { SETTING, DONATION, ABOUT }
 enum MenuType { TODAY, SHEET, SINGER, RADIO, FM }
+enum CommentType { SONG, SHEET, ALBUM, MV, VIDEO,DJ}
 
 const kPrimaryColor = Color(0xFF0c9860);
 const kTextColor = Color(0xff3c4046);

@@ -44,7 +44,7 @@ https://www.jianshu.com/p/04eb531da438
 - [x] 查看单曲评论
 - [X] 发表单曲评论
 - [ ] 专辑评论
-- [ ] 歌单评论
+- [x] 歌单评论
 - [ ] mv播放(计划使用fijkplayer)
 - [ ] mv 
 - [ ] 电台播放

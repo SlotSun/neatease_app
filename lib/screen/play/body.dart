@@ -194,7 +194,8 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                               onPressed: () {
                                 //应该继续修正用户播放列表的数据，待修复
                                 //如果当前不喜欢应该传喜欢收藏
-                                NetUtils().subSongs('${curSong.id}', !curSong.like);
+                                NetUtils()
+                                    .subSongs('${curSong.id}', !curSong.like);
                                 curSong.like = !curSong.like;
                                 setState(() {});
                               },
@@ -221,6 +222,7 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                                         curSong.singer,
                                         data.total,
                                         '${curSong.id}',
+                                        0,
                                       ));
                                 });
                               },

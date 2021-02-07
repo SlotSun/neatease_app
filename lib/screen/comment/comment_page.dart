@@ -210,21 +210,45 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 
+  ///获取评论
   Future<SongTalkEntity> _getTalk(id, page) async {
     var songTalkEntity;
-    var answer = await comment_music({
-      'id': id,
-      'offset': page * 15,
-    }, await SelfUtil.getCookie());
-    if (answer.status == 200) {
-      songTalkEntity = SongTalkEntity.fromJson(answer.body);
+    print(id);
+    print(widget.commentHead.type);
+    switch (widget.commentHead.type) {
+      case 0:
+        // TODO: Handle this case.
+        var answer = await comment_music({
+          'id': id,
+          'offset': page * 15,
+        }, await SelfUtil.getCookie());
+        if (answer.status == 200) {
+          songTalkEntity = SongTalkEntity.fromJson(answer.body);
+        }
+        break;
+      case 1:
+        // TODO: Handle this case
+        break;
+      case 2:
+        // TODO: Handle this case.
+        var answer = await comment_playlist({
+          'id': id,
+          'offset': page * 15,
+        }, await SelfUtil.getCookie());
+        if (answer.status == 200) {
+          songTalkEntity = SongTalkEntity.fromJson(answer.body);
+        }
+        break;
+      default:
+        break;
     }
     return songTalkEntity;
   }
 
+  ///发送评论
   Future<bool> _sendTalk(id, content) async {
     var answer = await comment(
-        {'id': id, 't': 1, 'type': 0, 'content': content},
+        {'id': id, 't': 1, 'type': widget.commentHead.type, 'content': content},
         await SelfUtil.getCookie());
     if (answer.status == 200) {
       page = 0;
