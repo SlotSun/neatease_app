@@ -14,15 +14,15 @@ class UserModel with ChangeNotifier {
   LoginEntity get user => _user;
 
   ///判断是否登录
-  bool isLogin() {
+  void isLogin() {
     if (SpUtil.haveKey(USER) == true) {
+      print('111');
       _user = LoginEntity.fromJson(SpUtil.getObject(USER));
-      return true;
     } else {
       _user = null;
-      return false;
     }
 
+    notifyListeners();
   }
 
   /// 登录

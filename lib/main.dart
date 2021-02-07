@@ -13,14 +13,14 @@ import 'file:///D:/WorkSpace/neatease_app/lib/screen/home/home_screen.dart';
 import 'application.dart';
 import 'constant/constants.dart';
 
-void main(){
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FluroRouter router = FluroRouter();
   Routes.configureRoutes(router);
   Application.router = router;
   Application.setupLocator();
   //异步实例化sp：怎么确保调用时已实例化完成
-  SpUtil.getInstance();
+  await SpUtil.getInstance();
   Application.setLoveList();
 
   runApp(MultiProvider(providers: [

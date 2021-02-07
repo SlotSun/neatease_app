@@ -22,10 +22,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
+  UserModel _userModel;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((d) {
+      if (mounted) {
+        _userModel = Provider.of<UserModel>(context,listen: false);
+        _userModel.isLogin();
+      }
+      ;
+    });
   }
 
   @override
@@ -62,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen>
                                     Scaffold.of(context).openDrawer();
                                   },
                                   child: ImageHelper.getImage(
-                                      model.isLogin()
+                                      model.user != null
                                           ? model.user.profile.avatarUrl
                                           : 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fa0.att.hudong.com%2F30%2F29%2F01300000201438121627296084016.jpg&refer=http%3A%2F%2Fa0.att.hudong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1615185018&t=cdef38e94885581e29b1244310893c0c',
                                       height: 40,

@@ -10,7 +10,7 @@ import 'route/navigate_service.dart';
 class Application{
   static FluroRouter router;
   static GlobalKey<NavigatorState> key = GlobalKey();
-  static SharedPreferences sp;
+  static SpUtil sp;
   static double screenWidth;
   static double screenHeight;
   static double statusBarHeight;
@@ -24,7 +24,7 @@ class Application{
     loveList = SpUtil.getStringList(LIKE_SONGS);
   }
   static initSp() async{
-    sp = await SharedPreferences.getInstance();
+    sp = await SpUtil.getInstance();
   }
 
   static setupLocator(){
