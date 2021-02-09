@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neatease_app/constant/paly_state.dart';
@@ -13,6 +12,7 @@ import 'package:neatease_app/screen/lyric/lyric_page.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/net_util.dart';
+import 'package:neatease_app/widget/common_text_style.dart';
 import 'package:neatease_app/widget/widget_music_list_item_sheet.dart';
 import 'package:neatease_app/widget/widget_song_progress.dart';
 import 'package:provider/provider.dart';
@@ -140,7 +140,7 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                                 child: Stack(
                                   alignment: Alignment.center,
                                   children: <Widget>[
-                                    prefix0.Image.asset(
+                                    Image.asset(
                                       'assets/images/player_disc.png',
                                       width: ScreenUtil().setWidth(300),
                                     ),
@@ -296,42 +296,61 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
         ),
         //侧边弹出歌单
         drawer: Drawer(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              Consumer<PlaySongsModel>(
-                builder: (context, model, child) {
-                  return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        var d = model.allSongs[index];
-                        return Column(
-                          children: [
-                            WidgetMusicListItemSheet(
-                              SongBeanEntity(
-                                picUrl: d.picUrl,
-                                mv: d.mv,
-                                id: '${d.id}',
-                                name: d.name,
-                                like: d.like,
-                                singer: d.singer,
-                              ),
-                              onTap: () {
-                                playSongs(model, index);
-                              },
-                              index: index + 1,
-                            ),
-                            Divider(
-                              height: 1.0,
-                              indent: 0.0,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        );
-                      },
-                      childCount: model.allSongs.length,
+          elevation: 0,
+          child: Stack(
+            children: <Widget>[
+              CustomScrollView(
+                slivers: <Widget>[
+                  SliverAppBar(
+                    pinned: true,
+                    expandedHeight: 200.0,
+                    flexibleSpace: FlexibleSpaceBar(
+                      title: Text(
+                        '当前播放列表',
+                        style: mCommonTextStyle,
+                      ),
+                      background: Image.network(
+                        '${curSong.picUrl}?param=400y400',
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
-                  );
-                },
+                  ),
+                  Consumer<PlaySongsModel>(
+                    builder: (context, model, child) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            var d = model.allSongs[index];
+                            return Column(
+                              children: [
+                                WidgetMusicListItemSheet(
+                                  SongBeanEntity(
+                                    picUrl: d.picUrl,
+                                    mv: d.mv,
+                                    id: '${d.id}',
+                                    name: d.name,
+                                    like: d.like,
+                                    singer: d.singer,
+                                  ),
+                                  onTap: () {
+                                    playSongs(model, index);
+                                  },
+                                  index: index + 1,
+                                ),
+                                Divider(
+                                  height: 1.0,
+                                  indent: 0.0,
+                                  color: Colors.grey,
+                                ),
+                              ],
+                            );
+                          },
+                          childCount: model.allSongs.length,
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),

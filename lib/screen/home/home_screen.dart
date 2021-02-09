@@ -26,7 +26,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   UserModel _userModel;
-  TabController _tabController;
+
+  int _tabIndex = 1;
 
   @override
   void initState() {
@@ -36,202 +37,19 @@ class _HomeScreenState extends State<HomeScreen>
       if (mounted) {
         _userModel = Provider.of<UserModel>(context, listen: false);
         _userModel.isLogin();
-        _tabController =
-            new TabController(vsync: this, length: 3, initialIndex: 1);
         Application.setLoveList();
       }
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        child: AppBar(
-          elevation: 0,
-        ),
-        preferredSize: Size.zero,
-      ),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        bottom: false,
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              child: Column(
-                children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      Positioned(
-                        top: 5,
-                        left: 20,
-                        child: Consumer<UserModel>(
-                          builder: (_, model, __) {
-                            return Builder(builder: (context) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Scaffold.of(context).openDrawer();
-                                },
-                                child: ImageHelper.getImage(
-                                    model.user != null
-                                        ? model.user.profile.avatarUrl
-                                        : 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fa0.att.hudong.com%2F30%2F29%2F01300000201438121627296084016.jpg&refer=http%3A%2F%2Fa0.att.hudong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1615185018&t=cdef38e94885581e29b1244310893c0c',
-                                    height: 40,
-                                    isRound: true),
-                              );
-                            });
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(75)),
-                        //切换tab中文抖动，需要修复，思路：让内部组件自刷新
-                        child: TabBar(
-                          //略微牺牲性能
-                          onTap: (index) {
-                            setState(() {});
-                          },
-                          controller: _tabController,
-                          // labelStyle: TextStyle(
-                          //     fontSize: 20, fontWeight: FontWeight.bold),
-                          // unselectedLabelStyle: TextStyle(fontSize: 14),
-                          indicator: UnderlineTabIndicator(),
-                          tabs: [
-                            Tab(
-                              child: Text(
-                                '我的',
-                                style: _tabController.index == 0
-                                    ? tabInTextStyle
-                                    : tabUnTextStyle,
-                              ),
-                            ),
-                            Tab(
-                              child: Text(
-                                '发现',
-                                style: _tabController.index == 1
-                                    ? tabInTextStyle
-                                    : tabUnTextStyle,
-                              ),
-                            ),
-                            Tab(
-                              child: Text(
-                                '动态',
-                                style: _tabController.index == 2
-                                    ? tabInTextStyle
-                                    : tabUnTextStyle,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        right: 20,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.search,
-                            size: 30,
-                            color: Colors.black87,
-                          ),
-                          onPressed: () {
-                            showSearch(
-                                context: context, delegate: SearchPage());
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        // 我,
-                        MinePage(),
-                        //发现
-                        FindHomeScreen(),
-                        // 动态
-                        Container(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              padding: EdgeInsets.only(
-                bottom: ScreenUtil().setWidth(75),
-              ),
-            ),
-            PlayWidget(),
-          ],
-        ),
-      ),
-      drawer: Consumer<UserModel>(
-        builder: (_, model, __) {
-          return Drawer(
-            elevation: 0,
-            child: Stack(
-              children: [
-                Column(
-                  children: <Widget>[
-                    header(model),
-                    ListTile(
-                      title: Text('我的消息'),
-                      leading: Icon(Icons.email),
-                      onTap: () {
-                        SpUtil.putString('head',
-                            'https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=%E5%9B%BE%E7%89%87&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyright=undefined&cs=3363295869,2467511306&os=892371676,71334739&simid=4203536407,592943110&pn=0&rn=1&di=5830&ln=1672&fr=&fmq=1612004503815_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=0&hs=2&objurl=https%3A%2F%2Fgimg2.baidu.com%2Fimage_search%2Fsrc%3Dhttp%253A%252F%252Fa0.att.hudong.com%252F30%252F29%252F01300000201438121627296084016.jpg%26refer%3Dhttp%253A%252F%252Fa0.att.hudong.com%26app%3D2002%26size%3Df9999%2C10000%26q%3Da80%26n%3D0%26g%3D0n%26fmt%3Djpeg%3Fsec%3D1614596509%26t%3Dbaa41b010d113aac0b061851b83d3b09&rpstart=0&rpnum=0&adpicid=0&force=undefined');
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text('我的好友'),
-                      leading: Icon(Icons.people),
-                      onTap: () {},
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text('附近的人'),
-                      leading: Icon(Icons.add_location),
-                      onTap: () {},
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text('音乐云盘'),
-                      leading: Icon(Icons.cloud),
-                      onTap: () {},
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text('设置'),
-                      leading: Icon(Icons.settings),
-                      onTap: () {},
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text('退出'),
-                      leading: Icon(Icons.highlight_off_rounded),
-                      onTap: () {
-                        SpUtil.clear();
-                        Fluttertoast.showToast(msg: '已退出登录');
-                      },
-                    ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    height: ScreenUtil().setWidth(50),
-                    color: Colors.green,
-                    child: Row(
-                      children: <Widget>[],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
+  Future<int> _dailySignin() async {
+    var answer = await daily_signin({'type': 0}, await SelfUtil.getCookie());
+    if (answer.status == 200) {
+      Fluttertoast.showToast(msg: '签到成功');
+    } else {
+      Fluttertoast.showToast(msg: '请勿重复签到');
+    }
+    return answer.status;
   }
 
   Widget header(UserModel model) {
@@ -414,13 +232,199 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Future<int> _dailySignin() async {
-    var answer = await daily_signin({'type': 0}, await SelfUtil.getCookie());
-    if (answer.status == 200) {
-      Fluttertoast.showToast(msg: '签到成功');
-    } else {
-      Fluttertoast.showToast(msg: '请勿重复签到');
-    }
-    return answer.status;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+        child: AppBar(
+          elevation: 0,
+        ),
+        preferredSize: Size.zero,
+      ),
+      backgroundColor: Colors.white,
+      body: DefaultTabController(
+        length: 3,
+        initialIndex: 1,
+        child: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: <Widget>[
+              Padding(
+                child: Column(
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        Positioned(
+                          top: 5,
+                          left: 20,
+                          child: Consumer<UserModel>(
+                            builder: (_, model, __) {
+                              return Builder(builder: (context) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Scaffold.of(context).openDrawer();
+                                  },
+                                  child: ImageHelper.getImage(
+                                      model.user != null
+                                          ? model.user.profile.avatarUrl
+                                          : 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fa0.att.hudong.com%2F30%2F29%2F01300000201438121627296084016.jpg&refer=http%3A%2F%2Fa0.att.hudong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1615185018&t=cdef38e94885581e29b1244310893c0c',
+                                      height: 40,
+                                      isRound: true),
+                                );
+                              });
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: ScreenUtil().setWidth(75)),
+                          //切换tab中文抖动，需要修复，思路：让内部组件自刷新
+                          child: TabBar(
+                            //略微牺牲性能
+                            onTap: (index) {
+                              setState(() {
+                                _tabIndex = index;
+                              });
+                            },
+
+                            // labelStyle: TextStyle(
+                            //     fontSize: 20, fontWeight: FontWeight.bold),
+                            // unselectedLabelStyle: TextStyle(fontSize: 14),
+                            indicator: UnderlineTabIndicator(),
+                            tabs: [
+                              Tab(
+                                child: Text(
+                                  '我的',
+                                  style: _tabIndex == 0
+                                      ? tabInTextStyle
+                                      : tabUnTextStyle,
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  '发现',
+                                  style: _tabIndex == 1
+                                      ? tabInTextStyle
+                                      : tabUnTextStyle,
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  '动态',
+                                  style: _tabIndex == 2
+                                      ? tabInTextStyle
+                                      : tabUnTextStyle,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          right: 20,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.search,
+                              size: 30,
+                              color: Colors.black87,
+                            ),
+                            onPressed: () {
+                              showSearch(
+                                  context: context, delegate: SearchPage());
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          // 我,
+                          MinePage(),
+                          //发现
+                          FindHomeScreen(),
+                          // 动态
+                          Container(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                padding: EdgeInsets.only(
+                  bottom: ScreenUtil().setWidth(75),
+                ),
+              ),
+              PlayWidget(),
+            ],
+          ),
+        ),
+      ),
+      drawer: Consumer<UserModel>(
+        builder: (_, model, __) {
+          return Drawer(
+            elevation: 0,
+            child: Stack(
+              children: [
+                Column(
+                  children: <Widget>[
+                    header(model),
+                    ListTile(
+                      title: Text('我的消息'),
+                      leading: Icon(Icons.email),
+                      onTap: () {
+                        SpUtil.putString('head',
+                            'https://image.baidu.com/search/detail?ct=503316480&z=undefined&tn=baiduimagedetail&ipn=d&word=%E5%9B%BE%E7%89%87&step_word=&ie=utf-8&in=&cl=2&lm=-1&st=undefined&hd=undefined&latest=undefined&copyright=undefined&cs=3363295869,2467511306&os=892371676,71334739&simid=4203536407,592943110&pn=0&rn=1&di=5830&ln=1672&fr=&fmq=1612004503815_R&fm=&ic=undefined&s=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&is=0,0&istype=0&ist=&jit=&bdtype=0&spn=0&pi=0&gsm=0&hs=2&objurl=https%3A%2F%2Fgimg2.baidu.com%2Fimage_search%2Fsrc%3Dhttp%253A%252F%252Fa0.att.hudong.com%252F30%252F29%252F01300000201438121627296084016.jpg%26refer%3Dhttp%253A%252F%252Fa0.att.hudong.com%26app%3D2002%26size%3Df9999%2C10000%26q%3Da80%26n%3D0%26g%3D0n%26fmt%3Djpeg%3Fsec%3D1614596509%26t%3Dbaa41b010d113aac0b061851b83d3b09&rpstart=0&rpnum=0&adpicid=0&force=undefined');
+                      },
+                    ),
+                    Divider(),
+                    ListTile(
+                      title: Text('我的好友'),
+                      leading: Icon(Icons.people),
+                      onTap: () {},
+                    ),
+                    Divider(),
+                    ListTile(
+                      title: Text('附近的人'),
+                      leading: Icon(Icons.add_location),
+                      onTap: () {},
+                    ),
+                    Divider(),
+                    ListTile(
+                      title: Text('音乐云盘'),
+                      leading: Icon(Icons.cloud),
+                      onTap: () {},
+                    ),
+                    Divider(),
+                    ListTile(
+                      title: Text('设置'),
+                      leading: Icon(Icons.settings),
+                      onTap: () {},
+                    ),
+                    Divider(),
+                    ListTile(
+                      title: Text('退出'),
+                      leading: Icon(Icons.highlight_off_rounded),
+                      onTap: () {
+                        SpUtil.clear();
+                        Fluttertoast.showToast(msg: '已退出登录');
+                      },
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Container(
+                    height: ScreenUtil().setWidth(50),
+                    color: Colors.green,
+                    child: Row(
+                      children: <Widget>[],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

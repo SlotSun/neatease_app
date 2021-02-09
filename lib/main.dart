@@ -5,10 +5,9 @@ import 'package:neatease_app/provider/play_list_model.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/provider/user_model.dart';
 import 'package:neatease_app/route/routes.dart';
+import 'package:neatease_app/screen/home/home_screen.dart';
 import 'package:neatease_app/util/sp_util.dart';
 import 'package:provider/provider.dart';
-
-import 'file:///D:/WorkSpace/neatease_app/lib/screen/home/home_screen.dart';
 
 import 'application.dart';
 import 'constant/constants.dart';
@@ -38,6 +37,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
