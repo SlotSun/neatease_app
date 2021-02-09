@@ -190,43 +190,7 @@ class _MinePageState extends State<MinePage>
                     ],
                   ),
                 ),
-                SliverToBoxAdapter(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                          icon: Icon(
-                            Icons.history,
-                          ),
-                          onPressed: () {
-                            print('${model.allPlayList.length}');
-                            Fluttertoast.showToast(msg: '暂不可用');
-                          }),
-                      IconButton(
-                          icon: Icon(
-                            Icons.cloud,
-                          ),
-                          onPressed: () {
-                            Fluttertoast.showToast(msg: '暂不可用');
-                          }),
-                      IconButton(
-                          icon: Icon(
-                            Icons.people,
-                          ),
-                          onPressed: () {
-                            Fluttertoast.showToast(msg: '暂不可用');
-                          }),
-                      IconButton(
-                          icon: Icon(
-                            Icons.queue_music,
-                          ),
-                          onPressed: () {
-                            Fluttertoast.showToast(msg: '暂不可用');
-                            // Navigator.of(viewService.context).pushNamed('local_music', arguments: null);
-                          }),
-                    ],
-                  ),
-                ),
+                _loginViewHistoryAndCloudAndFrindsAndManage(),
                 SliverToBoxAdapter(
                   child: InkWell(
                     onTap: () {
@@ -346,6 +310,49 @@ class _MinePageState extends State<MinePage>
                     : SliverToBoxAdapter(),
               ],
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _loginViewHistoryAndCloudAndFrindsAndManage() {
+    return Consumer<UserModel>(
+      builder: (_, model, __) {
+        return SliverToBoxAdapter(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              IconButton(
+                  icon: Icon(
+                    Icons.history,
+                  ),
+                  onPressed: () {
+                    NavigatorUtil.goHistoryPage(context, model.user.account.id);
+                  }),
+              IconButton(
+                  icon: Icon(
+                    Icons.cloud,
+                  ),
+                  onPressed: () {
+                    Fluttertoast.showToast(msg: '暂不可用');
+                  }),
+              IconButton(
+                  icon: Icon(
+                    Icons.people,
+                  ),
+                  onPressed: () {
+                    Fluttertoast.showToast(msg: '暂不可用');
+                  }),
+              IconButton(
+                  icon: Icon(
+                    Icons.queue_music,
+                  ),
+                  onPressed: () {
+                    Fluttertoast.showToast(msg: '暂不可用');
+                    // Navigator.of(viewService.context).pushNamed('local_music', arguments: null);
+                  }),
+            ],
           ),
         );
       },
