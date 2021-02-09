@@ -217,7 +217,7 @@ class _SheetDetailState extends State<SheetDetail> {
                                               sheet.creator.nickname,
                                               sheet.commentCount,
                                               '${sheet.id}',
-                                               2,
+                                              2,
                                             ));
                                       }),
                                       FooterTabWidget(
@@ -321,6 +321,7 @@ class _SheetDetailState extends State<SheetDetail> {
     model.playSongs(
       sheet.tracks
           .map((r) => SongBeanEntity(
+                mv: r.mv,
                 id: '${r.id}',
                 name: r.name,
                 picUrl: r.al.picUrl,

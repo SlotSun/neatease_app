@@ -66,6 +66,8 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
   @override
   void dispose() {
     // TODO: implement dispose
+    _controller.dispose();
+    _stylusController.dispose();
     super.dispose();
   }
 
@@ -90,6 +92,12 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
       }
       return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           centerTitle: true,
           backgroundColor: Colors.white,
           title: Column(
@@ -299,25 +307,30 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
           elevation: 0,
           child: Stack(
             children: <Widget>[
-              CustomScrollView(
-                slivers: <Widget>[
-                  SliverAppBar(
-                    pinned: true,
-                    expandedHeight: 200.0,
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: Text(
-                        '当前播放列表',
-                        style: mCommonTextStyle,
+              Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: Container(),
+              ),
+              Consumer<PlaySongsModel>(
+                builder: (context, model, child) {
+                  return CustomScrollView(
+                    slivers: <Widget>[
+                      SliverAppBar(
+                        automaticallyImplyLeading: false,
+                        pinned: true,
+                        expandedHeight: 200.0,
+                        flexibleSpace: FlexibleSpaceBar(
+                          title: Text(
+                            '当前播放列表',
+                            style: mCommonTextStyle,
+                          ),
+                          background: Image.network(
+                            '${curSong.picUrl}?param=400y400',
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
                       ),
-                      background: Image.network(
-                        '${curSong.picUrl}?param=400y400',
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                  ),
-                  Consumer<PlaySongsModel>(
-                    builder: (context, model, child) {
-                      return SliverList(
+                      SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
                             var d = model.allSongs[index];
@@ -332,6 +345,7 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                                     like: d.like,
                                     singer: d.singer,
                                   ),
+                                  model,
                                   onTap: () {
                                     playSongs(model, index);
                                   },
@@ -347,10 +361,10 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                           },
                           childCount: model.allSongs.length,
                         ),
-                      );
-                    },
-                  ),
-                ],
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
