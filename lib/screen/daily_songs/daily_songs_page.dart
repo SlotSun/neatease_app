@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:neatease_app/application.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/entity/today_song_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
@@ -93,7 +94,8 @@ class _DailySongsPageState extends State<DailySongsPage> {
                               var d = data.recommend[index];
                               return WidgetMusicListItem(
                                 SongBeanEntity(
-                                  id: '${d.id}', //是否传入id 控制是否显示index
+                                  id: '${d.id}',
+                                  //是否传入id 控制是否显示index
                                   mv: d.mvid,
                                   picUrl: d.album.picUrl,
                                   name: d.name,
@@ -102,7 +104,7 @@ class _DailySongsPageState extends State<DailySongsPage> {
                                 onTap: () {
                                   playSongs(model, index);
                                 },
-                                index: index+1,
+                                index: index + 1,
                               );
                             },
                             childCount: data.recommend.length,
@@ -129,6 +131,9 @@ class _DailySongsPageState extends State<DailySongsPage> {
                 name: r.name,
                 picUrl: r.album.picUrl,
                 singer: '${r.artists.map((a) => a.name).toList().join('/')}',
+                like: Application.loveList.indexOf('${r.id}') != -1
+                    ? true
+                    : false,
               ))
           .toList(),
       index: index,
