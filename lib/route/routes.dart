@@ -1,6 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+
 import 'file:///D:/WorkSpace/neatease_app/lib/screen/home/home_screen.dart';
+
 import 'route_handles.dart';
 
 class Routes {
@@ -13,6 +15,7 @@ class Routes {
   static String comment = "/comment";
   static String sheetDetail = '/sheet_detail';
   static String search = '/search';
+  static String history = '/mine/history';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = new Handler(
@@ -20,7 +23,7 @@ class Routes {
       print("ROUTE WAS NOT FOUND !!!");
       return HomeScreen();
     });
-
+    router.define(history, handler: mineHistorHandler);
     router.define(home, handler: homeHandler);
     router.define(login, handler: loginHandler);
     router.define(dailySongs, handler: dailySongsHandler);

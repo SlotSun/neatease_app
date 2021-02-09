@@ -100,6 +100,16 @@ class NetUtils {
     return login;
   }
 
+  // ///获取用户听歌历史
+  // Future<PlayHistoryEntity> userHistory(uid, type) async {
+  //   PlayHistoryEntity _playHsitory;
+  //   var map = await _doHandler('/user/record', {'uid': uid, 'type': type});
+  //   if (map != null) {
+  //     _playHsitory = PlayHistoryEntity.fromJson(map);
+  //   }
+  //   return _playHsitory;
+  // }
+
   ///获取用户等级
   Future<int> userLevel() async {
     int level;
@@ -297,6 +307,7 @@ class NetUtils {
     return searchData;
   }
 
+  ///获取用户播放历史
   Future<PlayHistoryEntity> getHistory(uid) async {
     var history;
     var map = await _doHandler('/user/record', {'uid': uid});

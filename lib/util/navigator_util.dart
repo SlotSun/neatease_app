@@ -39,8 +39,7 @@ class NavigatorUtil {
 
   /// 歌单详情
   static void goSheetDetailPage(BuildContext context, int id) {
-    _navigateTo(context,
-        "${Routes.sheetDetail}?data=$id");
+    _navigateTo(context, "${Routes.sheetDetail}?data=$id");
   }
 
   // /// 排行榜首页
@@ -51,6 +50,10 @@ class NavigatorUtil {
   /// 播放歌曲页面
   static void goPlaySongsPage(BuildContext context) {
     _navigateTo(context, Routes.playSongs);
+  }
+
+  static void goHistoryPage(BuildContext context, int id) {
+    _navigateTo(context, '${Routes.history}?data=$id');
   }
 
   /// 评论页面

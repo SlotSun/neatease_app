@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
+import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/play_history_entity.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
+import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/entity/song_info.dart';
 import 'package:neatease_app/entity/today_song_entity.dart';
 import 'package:path_provider/path_provider.dart';
@@ -79,17 +81,20 @@ class SelfUtil {
     return info;
   }
 
-  static Future<List<SongInfo>> historyToSongInfo(
+  static Future<List<SongBeanEntity>> historyToSongInfo(
       List<PlayHistoryAlldata> songs) async {
-    List<SongInfo> info = [];
+    List<SongBeanEntity> info = [];
     await Future.forEach(songs, (PlayHistoryAlldata element) {
-      SongInfo songInfo = SongInfo(
-          songId: '${element.song.id}',
-          duration: element.song.dt,
-          songCover: '${element.song.al.picUrl}',
-          songUrl: '',
-          songName: '${element.song.name}',
-          artist: '${element.song.ar[0].name}');
+      SongBeanEntity songInfo = SongBeanEntity(
+        id: '${element.song.id}',
+        picUrl: '${element.song.al.picUrl}',
+        like: Application.loveList.indexOf('${element.song.id}') != -1
+            ? true
+            : false,
+        name: '${element.song.name}',
+        mv: element.song.mv,
+        singer: '${element.song.ar.map((a) => a.name).toList().join('/')}',
+      );
       info.add(songInfo);
     });
     return info;

@@ -5,8 +5,8 @@ import 'package:neatease_app/screen/comment/comment_page.dart';
 import 'package:neatease_app/screen/daily_songs/daily_songs_page.dart';
 import 'package:neatease_app/screen/home/home_screen.dart';
 import 'package:neatease_app/screen/login/login_page.dart';
+import 'package:neatease_app/screen/mine/history/history.dart';
 import 'package:neatease_app/screen/play/body.dart';
-import 'package:neatease_app/screen/search/search.dart';
 import 'package:neatease_app/screen/sheet/sheet_detail.dart';
 import 'package:neatease_app/util/fluro_convert_utils.dart';
 
@@ -46,6 +46,13 @@ var sheetDetailHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
   var id = int.parse(params['data'].first);
   return SheetDetail(id);
+});
+
+///跳转到听歌历史
+var mineHistorHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
+  var id = int.parse(params['data'].first);
+  return History(id);
 });
 
 // ///跳转到搜索页
