@@ -157,6 +157,16 @@ Handler user_subcount = (query, cookie) {
     cookies: cookie,
   );
 };
+// 用户等级
+Handler user_level = (query, cookie) {
+  return request(
+    'post',
+    'https://music.163.com/weapi//user/level',
+    {},
+    crypto: Crypto.weapi,
+    cookies: cookie,
+  );
+};
 
 // 编辑用户信息
 Handler user_update = (query, cookie) {

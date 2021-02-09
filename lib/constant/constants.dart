@@ -66,6 +66,7 @@ const String MINI_PLAY = 'MINNI_PLAY'; //迷你播放页
 const String IS_SHOW_SUN = 'IS_SHOW_SUN'; //是否显示日夜间的太阳
 const String USER = 'USER';
 const String USER_ID = 'USER_ID'; //用户id
+const String USER_LEVEL = 'USER_LEVEL'; //用户等级
 
 const String NICKNAME = 'nickname';
 
@@ -118,7 +119,7 @@ enum TopType { BS, NEW, YC, HOT }
 enum PlayModeType { REPEAT, REPEAT_ONE, SHUFFLE }
 enum OpenType { SETTING, DONATION, ABOUT }
 enum MenuType { TODAY, SHEET, SINGER, RADIO, FM }
-enum CommentType { SONG, SHEET, ALBUM, MV, VIDEO,DJ}
+enum CommentType { SONG, SHEET, ALBUM, MV, VIDEO, DJ }
 
 const kPrimaryColor = Color(0xFF0c9860);
 const kTextColor = Color(0xff3c4046);

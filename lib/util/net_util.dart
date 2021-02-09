@@ -8,6 +8,7 @@ import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/banner_entity.dart';
 import 'package:neatease_app/entity/highquality_entity.dart';
+import 'package:neatease_app/entity/level_entity.dart';
 import 'package:neatease_app/entity/like_song_list_entity.dart';
 import 'package:neatease_app/entity/login_entity.dart';
 import 'package:neatease_app/entity/lyric_entity.dart';
@@ -99,6 +100,21 @@ class NetUtils {
     return login;
   }
 
+  ///获取用户等级
+  Future<int> userLevel() async {
+    int level;
+    LevelEntity levelEntity;
+    var map = await _doHandler(
+      '/user/level',
+    );
+    if (map != null) {
+      levelEntity = LevelEntity.fromJson(map);
+      SpUtil.putInt(USER_LEVEL, levelEntity.data.level);
+      level = levelEntity.data.level;
+    }
+    return level;
+  }
+
 //获取歌单详情
   Future<SheetDetailsEntity> getPlayListDetails(id) async {
     SheetDetailsEntity sheetDetails;
@@ -164,14 +180,15 @@ class NetUtils {
   Future<SongTalkEntity> getNewTalkCommants(int type, id,
       {@required Map<String, dynamic> params}) async {
     var songTalkEntity;
-    var map = await _doHandler('/comment/new',{'id':id,'type':type,params:params});
-    if(map!=null){
+    var map = await _doHandler(
+        '/comment/new', {'id': id, 'type': type, params: params});
+    if (map != null) {
       songTalkEntity = SongTalkEntity.fromJson(map);
     }
     return songTalkEntity;
-
   }
 
+  ///获取用户喜爱的歌曲
   Future<void> getLoveSong(id) async {
 //  Response likeList = await HttpUtil().post('/likelist',data: {'uid': id});
     var likeList = await likelist({'uid': id}, await SelfUtil.getCookie());

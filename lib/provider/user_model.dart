@@ -27,11 +27,12 @@ class UserModel with ChangeNotifier {
 
   /// 登录
   void login(BuildContext context, String email, String pwd) async {
-    NetUtils().loginByEmail(email, pwd).then((login) {
+    NetUtils().loginByEmail(email, pwd).then((login) async {
       if (login != null) {
         isLogin();
         //添加喜爱歌曲id清单
         NetUtils().getLoveSong(login.account.id);
+        int level = await NetUtils().userLevel();
         Application.setLoveList();
         //待优化代码
         SpUtil.putInt(USER_ID, login.account.id);
