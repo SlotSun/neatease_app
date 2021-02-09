@@ -10,6 +10,7 @@ import 'package:neatease_app/screen/search/search.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/util/sp_util.dart';
+import 'package:neatease_app/widget/common_text_style.dart';
 import 'package:neatease_app/widget/widget_play.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   UserModel _userModel;
+  TabController _tabController;
 
   @override
   void initState() {
@@ -34,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen>
       if (mounted) {
         _userModel = Provider.of<UserModel>(context, listen: false);
         _userModel.isLogin();
+        _tabController =
+            new TabController(vsync: this, length: 3, initialIndex: 1);
         Application.setLoveList();
       }
     });
@@ -49,97 +53,115 @@ class _HomeScreenState extends State<HomeScreen>
         preferredSize: Size.zero,
       ),
       backgroundColor: Colors.white,
-      body: DefaultTabController(
-        length: 3,
-        initialIndex: 1,
-        child: SafeArea(
-          bottom: false,
-          child: Stack(
-            children: <Widget>[
-              Padding(
-                child: Column(
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Positioned(
-                          top: 5,
-                          left: 20,
-                          child: Consumer<UserModel>(
-                            builder: (_, model, __) {
-                              return Builder(builder: (context) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Scaffold.of(context).openDrawer();
-                                  },
-                                  child: ImageHelper.getImage(
-                                      model.user != null
-                                          ? model.user.profile.avatarUrl
-                                          : 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fa0.att.hudong.com%2F30%2F29%2F01300000201438121627296084016.jpg&refer=http%3A%2F%2Fa0.att.hudong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1615185018&t=cdef38e94885581e29b1244310893c0c',
-                                      height: 40,
-                                      isRound: true),
-                                );
-                              });
-                            },
-                          ),
+      body: SafeArea(
+        bottom: false,
+        child: Stack(
+          children: <Widget>[
+            Padding(
+              child: Column(
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      Positioned(
+                        top: 5,
+                        left: 20,
+                        child: Consumer<UserModel>(
+                          builder: (_, model, __) {
+                            return Builder(builder: (context) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Scaffold.of(context).openDrawer();
+                                },
+                                child: ImageHelper.getImage(
+                                    model.user != null
+                                        ? model.user.profile.avatarUrl
+                                        : 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fa0.att.hudong.com%2F30%2F29%2F01300000201438121627296084016.jpg&refer=http%3A%2F%2Fa0.att.hudong.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1615185018&t=cdef38e94885581e29b1244310893c0c',
+                                    height: 40,
+                                    isRound: true),
+                              );
+                            });
+                          },
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(75)),
-                          child: TabBar(
-                            labelStyle: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                            unselectedLabelStyle: TextStyle(fontSize: 14),
-                            indicator: UnderlineTabIndicator(),
-                            tabs: [
-                              Tab(
-                                text: '我的',
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(75)),
+                        //切换tab中文抖动，需要修复，思路：让内部组件自刷新
+                        child: TabBar(
+                          //略微牺牲性能
+                          onTap: (index) {
+                            setState(() {});
+                          },
+                          controller: _tabController,
+                          // labelStyle: TextStyle(
+                          //     fontSize: 20, fontWeight: FontWeight.bold),
+                          // unselectedLabelStyle: TextStyle(fontSize: 14),
+                          indicator: UnderlineTabIndicator(),
+                          tabs: [
+                            Tab(
+                              child: Text(
+                                '我的',
+                                style: _tabController.index == 0
+                                    ? tabInTextStyle
+                                    : tabUnTextStyle,
                               ),
-                              Tab(
-                                text: '发现',
-                              ),
-                              Tab(
-                                text: '动态',
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          right: 20,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.search,
-                              size: 30,
-                              color: Colors.black87,
                             ),
-                            onPressed: () {
-                              showSearch(
-                                  context: context, delegate: SearchPage());
-                            },
-                          ),
+                            Tab(
+                              child: Text(
+                                '发现',
+                                style: _tabController.index == 1
+                                    ? tabInTextStyle
+                                    : tabUnTextStyle,
+                              ),
+                            ),
+                            Tab(
+                              child: Text(
+                                '动态',
+                                style: _tabController.index == 2
+                                    ? tabInTextStyle
+                                    : tabUnTextStyle,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
+                      Positioned(
+                        right: 20,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.search,
+                            size: 30,
+                            color: Colors.black87,
+                          ),
+                          onPressed: () {
+                            showSearch(
+                                context: context, delegate: SearchPage());
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        // 我,
+                        MinePage(),
+                        //发现
+                        FindHomeScreen(),
+                        // 动态
+                        Container(),
                       ],
                     ),
-                    Expanded(
-                      child: TabBarView(
-                        children: [
-                          // 我,
-                          MinePage(),
-                          //发现
-                          FindHomeScreen(),
-                          // 动态
-                          Container(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                padding: EdgeInsets.only(
-                  bottom: ScreenUtil().setWidth(75),
-                ),
+                  ),
+                ],
               ),
-              PlayWidget(),
-            ],
-          ),
+              padding: EdgeInsets.only(
+                bottom: ScreenUtil().setWidth(75),
+              ),
+            ),
+            PlayWidget(),
+          ],
         ),
       ),
       drawer: Consumer<UserModel>(
