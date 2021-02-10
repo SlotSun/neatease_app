@@ -263,7 +263,7 @@ class _SheetDetailState extends State<SheetDetail> {
                                   onTap: () {
                                     playSongs(model, index);
                                   },
-                                  index: index + 1,
+                                  index: index,
                                 );
                               },
                               childCount: sheet.tracks.length,

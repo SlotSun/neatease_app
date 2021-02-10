@@ -30,7 +30,7 @@ class _HistoryState extends State<History> {
     super.initState();
     NetUtils().getHistory(widget.id).then(
       (value) {
-        SelfUtil.historyToSongInfo(value.allData).then(
+        SelfUtil.historyToSongBeanEntity(value.allData).then(
           (value) {
             list = value;
             setState(
@@ -67,7 +67,7 @@ class _HistoryState extends State<History> {
                               onTap: () {
                                 playSongs(model, index);
                               },
-                              index: index + 1,
+                              index: index,
                             );
                           },
                           itemCount: list.length,
