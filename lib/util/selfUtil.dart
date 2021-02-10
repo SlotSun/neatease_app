@@ -81,7 +81,8 @@ class SelfUtil {
     return info;
   }
 
-  static Future<List<SongBeanEntity>> historyToSongInfo(
+  ///将历史entity转为SongBeanEntity
+  static Future<List<SongBeanEntity>> historyToSongBeanEntity(
       List<PlayHistoryAlldata> songs) async {
     List<SongBeanEntity> info = [];
     await Future.forEach(songs, (PlayHistoryAlldata element) {

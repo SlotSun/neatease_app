@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
-import 'package:neatease_app/util/cache_image.dart';
-import 'package:neatease_app/widget/v_empty_view.dart';
 
 import 'common_text_style.dart';
 import 'h_empty_view.dart';
@@ -39,7 +37,7 @@ class WidgetMusicListItem extends StatelessWidget {
                         width: ScreenUtil().setWidth(60),
                         height: ScreenUtil().setWidth(47),
                         child: Text(
-                          '$index',
+                          '${index + 1}',
                           style: mGrayTextStyle,
                         ),
                       ),
@@ -84,12 +82,10 @@ class WidgetMusicListItem extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-
               ],
             ),
             Divider(
               height: 1,
-
             )
           ],
         ),

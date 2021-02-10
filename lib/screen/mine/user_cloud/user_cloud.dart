@@ -1,47 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:neatease_app/entity/play_history_entity.dart';
+import 'package:neatease_app/api/module.dart';
+import 'package:neatease_app/entity/cloud_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
-import 'package:neatease_app/util/net_util.dart';
 import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/widget/loading.dart';
 import 'package:neatease_app/widget/widget_music_list_item.dart';
 import 'package:neatease_app/widget/widget_play.dart';
 import 'package:provider/provider.dart';
 
-class History extends StatefulWidget {
-  History(this.id);
+import '../../../application.dart';
 
-  final id;
-
+class UserCloud extends StatefulWidget {
   @override
-  _HistoryState createState() => _HistoryState();
+  _UserCloudState createState() => _UserCloudState();
 }
 
-class _HistoryState extends State<History> {
-  PlayHistoryEntity _playHistoryEntity;
+class _UserCloudState extends State<UserCloud> {
   bool isLoading = true;
-  List<SongBeanEntity> list;
+  List<SongBeanEntity> songs = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    NetUtils().getHistory(widget.id).then(
-      (value) {
-        SelfUtil.historyToSongBeanEntity(value.allData).then(
-          (value) {
-            list = value;
-            setState(
-              () {
-                isLoading = false;
-              },
-            );
-          },
-        );
-      },
-    );
+    _getUserCloud().then((value) {
+      songs = value;
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 
   @override
@@ -53,7 +42,7 @@ class _HistoryState extends State<History> {
               child: Column(
                 children: <Widget>[
                   AppBar(
-                    title: Text('听歌历史'),
+                    title: Text('云盘数据'),
                   ),
                   Expanded(
                     child: Consumer<PlaySongsModel>(
@@ -61,16 +50,17 @@ class _HistoryState extends State<History> {
                         return ListView.builder(
                           padding: EdgeInsets.all(0),
                           itemBuilder: (context, index) {
-                            var d = list[index];
+                            var d = songs[index];
                             return WidgetMusicListItem(
                               d,
                               onTap: () {
+                                print(songs.length);
                                 playSongs(model, index);
                               },
                               index: index,
                             );
                           },
-                          itemCount: list.length,
+                          itemCount: songs.length,
                         );
                       },
                     ),
@@ -84,12 +74,36 @@ class _HistoryState extends State<History> {
 
   void playSongs(PlaySongsModel model, int index) {
     model.playSongs(
-      list,
+      songs,
       index: index,
     );
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PlayBody()),
     );
+  }
+
+  Future _getUserCloud() async {
+    var answer = await user_cloud({'limit': 50}, await SelfUtil.getCookie());
+    List<SongBeanEntity> songs = List();
+    if (answer.status == 200) {
+      var body = answer.body;
+      CloudEntity cloudEntity = CloudEntity.fromJson(body);
+      if (cloudEntity.code == 200) {
+        Future.forEach(cloudEntity.data, (CloudData d) async {
+          songs.add(SongBeanEntity(
+            id: '${d.songId}',
+            name: d.songName,
+            mv: d.simpleSong.mv,
+            like: Application.loveList.indexOf('${d.simpleSong.id}') != -1
+                ? true
+                : false,
+            singer: '${d.simpleSong.ar.map((a) => a.name).toList().join('/')}',
+            picUrl: d.simpleSong.al.picUrl,
+          ));
+        });
+      }
+      return songs;
+    }
   }
 }

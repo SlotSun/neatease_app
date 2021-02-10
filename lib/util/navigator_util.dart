@@ -52,8 +52,14 @@ class NavigatorUtil {
     _navigateTo(context, Routes.playSongs);
   }
 
+  ///跳转历史记录界面
   static void goHistoryPage(BuildContext context, int id) {
     _navigateTo(context, '${Routes.history}?data=$id');
+  }
+
+  ///跳转用户云盘界面
+  static void goUserCloudPage(BuildContext context) {
+    _navigateTo(context, Routes.userCloud);
   }
 
   /// 评论页面

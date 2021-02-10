@@ -335,7 +335,7 @@ class _MinePageState extends State<MinePage>
                     Icons.cloud,
                   ),
                   onPressed: () {
-                    Fluttertoast.showToast(msg: '暂不可用');
+                    NavigatorUtil.goUserCloudPage(context);
                   }),
               IconButton(
                   icon: Icon(

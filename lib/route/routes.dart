@@ -16,6 +16,7 @@ class Routes {
   static String sheetDetail = '/sheet_detail';
   static String search = '/search';
   static String history = '/mine/history';
+  static String userCloud = 'user_cloud';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = new Handler(
@@ -23,6 +24,7 @@ class Routes {
       print("ROUTE WAS NOT FOUND !!!");
       return HomeScreen();
     });
+    router.define(userCloud, handler: userCloudHandler);
     router.define(history, handler: mineHistorHandler);
     router.define(home, handler: homeHandler);
     router.define(login, handler: loginHandler);
