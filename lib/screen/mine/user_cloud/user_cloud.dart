@@ -84,7 +84,7 @@ class _UserCloudState extends State<UserCloud> {
   }
 
   Future _getUserCloud() async {
-    var answer = await user_cloud({}, await SelfUtil.getCookie());
+    var answer = await user_cloud({'limit': 50}, await SelfUtil.getCookie());
     List<SongBeanEntity> songs = List();
     if (answer.status == 200) {
       var body = answer.body;
