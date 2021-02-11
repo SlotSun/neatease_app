@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/provider/user_model.dart';
-import 'package:neatease_app/screen/findmusic/songscatelog/detail/sheet_sq_details_page.dart';
+import 'package:neatease_app/screen/singer/singer.dart';
 import 'package:neatease_app/util/navigator_util.dart';
 import 'package:provider/provider.dart';
 
@@ -38,9 +38,7 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (BuildContext context) {
-                      return SheetSqDetailsPage(
-                        type: '全部',
-                      );
+                      return Singer();
                     }));
                   },
                   icon: SvgPicture.asset('assets/icons/fm.svg'),
@@ -67,7 +65,9 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
                     return IconButton(
                       onPressed: () {
                         //应该设置登录限制
-                        model.user != null?NavigatorUtil.goDailySongsPage(context):Fluttertoast.showToast(msg: '未登录');
+                        model.user != null
+                            ? NavigatorUtil.goDailySongsPage(context)
+                            : Fluttertoast.showToast(msg: '未登录');
                       },
                       icon: SvgPicture.asset('assets/icons/today.svg'),
                     );
@@ -92,12 +92,15 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    NavigatorUtil.goSheetDetailPage(context, 3778678);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return Singer();
+                    }));
                   },
                   icon: SvgPicture.asset('assets/icons/round_rank_fill.svg'),
                 ),
               ),
-              Text('云音乐热歌榜'),
+              Text('热门歌手'),
             ],
           ),
         ],

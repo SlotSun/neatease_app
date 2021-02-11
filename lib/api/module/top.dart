@@ -59,7 +59,7 @@ const topList = {
 // 排行榜
 Handler top_list = (query, cookie) {
   return request('POST', 'https://music.163.com/weapi/v3/playlist/detail',
-      {'id':query['idx'], 'n': 10000},
+      {'id': query['idx'], 'n': 10000},
       crypto: Crypto.linuxapi, cookies: cookie);
 };
 
