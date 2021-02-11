@@ -30,11 +30,7 @@ class _UserCloudState extends State<UserCloud> {
     // TODO: implement initState
     super.initState();
     _controller = EasyRefreshController();
-    _getUserCloud(offset).then((value) {
-      setState(() {
-        isLoading = false;
-      });
-    });
+    _getUserCloud(offset);
   }
 
   @override
@@ -117,7 +113,9 @@ class _UserCloudState extends State<UserCloud> {
             picUrl: d.simpleSong.al.picUrl,
           ));
         });
-        setState(() {});
+        setState(() {
+          isLoading = false;
+        });
       }
     }
     return true;
