@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/entity/cloud_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
@@ -6,8 +8,8 @@ import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
 import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/widget/loading.dart';
+import 'package:neatease_app/widget/widget_load_footer.dart';
 import 'package:neatease_app/widget/widget_music_list_item.dart';
-import 'package:neatease_app/widget/widget_play.dart';
 import 'package:provider/provider.dart';
 
 import '../../../application.dart';
@@ -20,13 +22,15 @@ class UserCloud extends StatefulWidget {
 class _UserCloudState extends State<UserCloud> {
   bool isLoading = true;
   List<SongBeanEntity> songs = [];
+  int offset = 0;
+  EasyRefreshController _controller;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getUserCloud().then((value) {
-      songs = value;
+    _controller = EasyRefreshController();
+    _getUserCloud(offset).then((value) {
       setState(() {
         isLoading = false;
       });
@@ -38,35 +42,45 @@ class _UserCloudState extends State<UserCloud> {
     return Scaffold(
       body: isLoading
           ? LoadingPage()
-          : Container(
-              child: Column(
-                children: <Widget>[
-                  AppBar(
-                    title: Text('云盘数据'),
+          : Scaffold(
+              appBar: AppBar(
+                title: Text('云盘数据'),
+              ),
+              body: Container(
+                child: EasyRefresh(
+                  onLoad: () async {
+                    offset++;
+                    print(songs.length);
+                    _getUserCloud(offset);
+                    _controller.finishLoad(noMore: songs.length >= 1000);
+                  },
+                  footer: LoadFooter(),
+                  controller: _controller,
+                  child: Consumer<PlaySongsModel>(
+                    builder: (context, model, child) {
+                      return ListView.builder(
+                        padding: EdgeInsets.only(
+                          left: ScreenUtil().setWidth(30),
+                          right: ScreenUtil().setWidth(30),
+                          bottom: ScreenUtil().setWidth(50),
+                        ),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          var d = songs[index];
+                          return WidgetMusicListItem(
+                            d,
+                            onTap: () {
+                              playSongs(model, index);
+                            },
+                            index: index,
+                          );
+                        },
+                        itemCount: songs.length,
+                      );
+                    },
                   ),
-                  Expanded(
-                    child: Consumer<PlaySongsModel>(
-                      builder: (context, model, child) {
-                        return ListView.builder(
-                          padding: EdgeInsets.all(0),
-                          itemBuilder: (context, index) {
-                            var d = songs[index];
-                            return WidgetMusicListItem(
-                              d,
-                              onTap: () {
-                                print(songs.length);
-                                playSongs(model, index);
-                              },
-                              index: index,
-                            );
-                          },
-                          itemCount: songs.length,
-                        );
-                      },
-                    ),
-                  ),
-                  PlayWidget(),
-                ],
+                ),
               ),
             ),
     );
@@ -83,14 +97,15 @@ class _UserCloudState extends State<UserCloud> {
     );
   }
 
-  Future _getUserCloud() async {
-    var answer = await user_cloud({'limit': 50}, await SelfUtil.getCookie());
-    List<SongBeanEntity> songs = List();
+  Future<bool> _getUserCloud(offset) async {
+    var answer = await user_cloud(
+        {'limit': 20, 'offset': offset}, await SelfUtil.getCookie());
+
     if (answer.status == 200) {
       var body = answer.body;
       CloudEntity cloudEntity = CloudEntity.fromJson(body);
       if (cloudEntity.code == 200) {
-        Future.forEach(cloudEntity.data, (CloudData d) async {
+        cloudEntity.data.forEach((CloudData d) {
           songs.add(SongBeanEntity(
             id: '${d.songId}',
             name: d.songName,
@@ -102,8 +117,9 @@ class _UserCloudState extends State<UserCloud> {
             picUrl: d.simpleSong.al.picUrl,
           ));
         });
+        setState(() {});
       }
-      return songs;
     }
+    return true;
   }
 }
