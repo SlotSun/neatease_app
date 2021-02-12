@@ -3,6 +3,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/entity/singer_entity.dart';
+import 'package:neatease_app/screen/singer/singer_detail/singer_detail.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/widget/loading.dart';
@@ -105,8 +106,11 @@ class _SingerState extends State<Singer> {
         style: TextStyle(fontSize: 14),
         overflow: TextOverflow.ellipsis,
       ),
-      onTap: () async {
-        // NavigatorUtil.goSheetDetailPage(context, playlist.id);
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SingerDetail(artist.id)),
+        );
       },
     );
   }
