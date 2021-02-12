@@ -61,10 +61,3 @@ var userCloudHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
   return UserCloud();
 });
-
-// ///跳转到搜索页
-// var searchHandler = new Handler(
-//   handlerFunc: (BuildContext context, Map<String, List<Object>> params){
-//     return SearchPage();
-//   }
-// )

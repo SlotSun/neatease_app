@@ -32,14 +32,14 @@ Handler user_cloud_detail = (query, cookie) {
       crypto: Crypto.weapi, cookies: cookie);
 };
 
-// 云盘数据
+// 云盘数据:offset*limit 偏移页数api接口问题
 Handler user_cloud = (query, cookie) {
   return request(
       'POST',
       'https://music.163.com/weapi/v1/cloud/get',
       {
         'limit': query['limit'] ?? 15,
-        'offset': query['offset'] ?? 0,
+        'offset': (query['offset'] ?? 0) * 20,
       },
       crypto: Crypto.weapi,
       cookies: cookie);
