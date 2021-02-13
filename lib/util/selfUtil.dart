@@ -4,6 +4,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/material.dart';
 import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
+import 'package:neatease_app/entity/album_entity.dart';
 import 'package:neatease_app/entity/play_history_entity.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
@@ -79,6 +80,32 @@ class SelfUtil {
       info.add(songInfo);
     });
     return info;
+  }
+
+  ///将专辑信息转换为歌单
+  static SheetDetailsPlaylist albumToSheetDetailsPlaylist(
+      AlbumEntity albumEntity) {
+    SheetDetailsPlaylist sheetDetailsPlaylist;
+    var r = albumEntity.album;
+    sheetDetailsPlaylist = SheetDetailsPlaylist(
+      commentCount: r.info.commentCount,
+      shareCount: r.info.shareCount,
+      subscribedCount: r.info.likedCount,
+      subscribed: r.info.liked,
+      trackCount: albumEntity.songs.length,
+      name: r.name,
+      id: r.id,
+      description: r.description,
+      tracks: albumEntity.songs,
+      tags: [],
+      creator: SheetDetailsPlaylistCreator(
+        userId: r.artist.id,
+        nickname: r.artist.name,
+        avatarUrl: r.picUrl,
+      ),
+      coverImgUrl: r.picUrl,
+    );
+    return sheetDetailsPlaylist;
   }
 
   ///将历史entity转为SongBeanEntity

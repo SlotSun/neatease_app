@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/entity/cloud_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
@@ -55,11 +54,6 @@ class _UserCloudState extends State<UserCloud> {
                   child: Consumer<PlaySongsModel>(
                     builder: (context, model, child) {
                       return ListView.builder(
-                        padding: EdgeInsets.only(
-                          left: ScreenUtil().setWidth(30),
-                          right: ScreenUtil().setWidth(30),
-                          bottom: ScreenUtil().setWidth(50),
-                        ),
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {

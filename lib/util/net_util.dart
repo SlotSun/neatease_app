@@ -6,6 +6,7 @@ import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/api/netease_cloud_music.dart';
 import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
+import 'package:neatease_app/entity/album_entity.dart';
 import 'package:neatease_app/entity/banner_entity.dart';
 import 'package:neatease_app/entity/highquality_entity.dart';
 import 'package:neatease_app/entity/level_entity.dart';
@@ -123,6 +124,16 @@ class NetUtils {
       level = levelEntity.data.level;
     }
     return level;
+  }
+
+  //获取专辑详情
+  Future<AlbumEntity> getAlbumDetail(id) async {
+    AlbumEntity albumEntity;
+    var map = await _doHandler("/album", {'id': id});
+    if (map != null) {
+      albumEntity = AlbumEntity.fromJson(map);
+    }
+    return albumEntity;
   }
 
 //获取歌单详情

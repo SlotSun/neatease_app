@@ -46,7 +46,11 @@ var commentHandler = new Handler(
 var sheetDetailHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
   var id = int.parse(params['data'].first);
-  return SheetDetail(id);
+  var type = params['type'].first;
+  return SheetDetail(
+    id,
+    type: type,
+  );
 });
 
 ///跳转到听歌历史

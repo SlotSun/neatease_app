@@ -239,6 +239,15 @@ class _CommentPageState extends State<CommentPage> {
           songTalkEntity = SongTalkEntity.fromJson(answer.body);
         }
         break;
+      case 3:
+        var answer = await comment_album({
+          'id': id,
+          'offset': page * 15,
+        }, await SelfUtil.getCookie());
+        if (answer.status == 200) {
+          songTalkEntity = SongTalkEntity.fromJson(answer.body);
+        }
+        break;
       default:
         break;
     }
