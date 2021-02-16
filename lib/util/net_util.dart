@@ -144,7 +144,11 @@ class NetUtils {
     var trackIds2 = sheetDetails.playlist.trackIds;
     List<int> ids = [];
     Future.forEach(trackIds2, (id) => ids.add(id.id));
+
     var list = await getSongDetails(ids.join(','));
+    list.forEach((e) {
+      e.like = Application.loveList.indexOf('${e.id}') != -1 ? true : false;
+    });
     sheetDetails.playlist.tracks = list;
     return sheetDetails;
   }
@@ -229,6 +233,12 @@ class NetUtils {
     var map = await _doHandler('/user/playlist', {'uid': userId});
     if (map != null) playlist = UserOrderEntity.fromJson(map);
     return playlist;
+  }
+
+  ///向歌单添加歌曲
+  Future<void> addPlaylistTracks(op, pid, trackIds) async {
+    var map = await _doHandler(
+        '/playlist/tracks', {'op': op, 'pid': pid, 'tracks': trackIds});
   }
 
 //推荐歌单

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/entity/cloud_entity.dart';
+import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
@@ -20,7 +21,7 @@ class UserCloud extends StatefulWidget {
 
 class _UserCloudState extends State<UserCloud> {
   bool isLoading = true;
-  List<SongBeanEntity> songs = [];
+  List<SheetDetailsPlaylistTrack> songs = [];
   int offset = 0;
   EasyRefreshController _controller;
 
@@ -59,7 +60,18 @@ class _UserCloudState extends State<UserCloud> {
                         itemBuilder: (context, index) {
                           var d = songs[index];
                           return WidgetMusicListItem(
-                            d,
+                            SongBeanEntity(
+                              id: '${d.id}',
+                              name: d.name,
+                              mv: d.mv,
+                              like:
+                                  Application.loveList.indexOf('${d.id}') != -1
+                                      ? true
+                                      : false,
+                              singer:
+                                  '${d.ar.map((a) => a.name).toList().join('/')}',
+                              picUrl: d.al.picUrl,
+                            ),
                             onTap: () {
                               playSongs(model, index);
                             },
@@ -81,6 +93,7 @@ class _UserCloudState extends State<UserCloud> {
       songs,
       index: index,
     );
+    print(songs.first.id);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PlayBody()),
@@ -96,16 +109,11 @@ class _UserCloudState extends State<UserCloud> {
       CloudEntity cloudEntity = CloudEntity.fromJson(body);
       if (cloudEntity.code == 200) {
         cloudEntity.data.forEach((CloudData d) {
-          songs.add(SongBeanEntity(
-            id: '${d.songId}',
-            name: d.songName,
-            mv: d.simpleSong.mv,
-            like: Application.loveList.indexOf('${d.simpleSong.id}') != -1
-                ? true
-                : false,
-            singer: '${d.simpleSong.ar.map((a) => a.name).toList().join('/')}',
-            picUrl: d.simpleSong.al.picUrl,
-          ));
+          d.simpleSong.like =
+              Application.loveList.indexOf('${d.simpleSong.id}') != -1
+                  ? true
+                  : false;
+          songs.add(d.simpleSong);
         });
         setState(() {
           isLoading = false;

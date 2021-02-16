@@ -332,18 +332,7 @@ class _SheetDetailState extends State<SheetDetail> {
 
   void playSongs(PlaySongsModel model, int index) {
     model.playSongs(
-      sheet.tracks
-          .map((r) => SongBeanEntity(
-                mv: r.mv,
-                id: '${r.id}',
-                name: r.name,
-                picUrl: r.al.picUrl,
-                singer: '${r.ar.map((a) => a.name).toList().join('/')}',
-                like: Application.loveList.indexOf('${r.id}') != -1
-                    ? true
-                    : false,
-              ))
-          .toList(),
+      sheet.tracks,
       index: index,
     );
     Navigator.push(

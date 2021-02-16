@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/application.dart';
+import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/singer_album.dart';
 import 'package:neatease_app/entity/singer_song.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
@@ -224,18 +225,7 @@ class _SingerDetailState extends State<SingerDetail> {
 
   void playSongs(PlaySongsModel model, int index) {
     model.playSongs(
-      _singerSong.hotSongs
-          .map((r) => SongBeanEntity(
-                mv: r.mv,
-                id: '${r.id}',
-                name: r.name,
-                picUrl: r.al.picUrl,
-                singer: '${r.ar.map((a) => a.name).toList().join('/')}',
-                like: Application.loveList.indexOf('${r.id}') != -1
-                    ? true
-                    : false,
-              ))
-          .toList(),
+      _singerSong.hotSongs.map((r) => SheetDetailsPlaylistTrack()).toList(),
       index: index,
     );
     Navigator.push(

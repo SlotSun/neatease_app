@@ -8,7 +8,9 @@ import 'package:neatease_app/entity/comment_head.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
+import 'package:neatease_app/screen/dialog/show_playlist_dialog.dart';
 import 'package:neatease_app/screen/lyric/lyric_page.dart';
+import 'package:neatease_app/screen/singer/singer_detail/singer_detail.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/net_util.dart';
@@ -16,6 +18,8 @@ import 'package:neatease_app/widget/common_text_style.dart';
 import 'package:neatease_app/widget/widget_music_list_item_sheet.dart';
 import 'package:neatease_app/widget/widget_song_progress.dart';
 import 'package:provider/provider.dart';
+
+import 'file:///D:/WorkSpace/neatease_app/lib/screen/dialog/common_botton_sheet.dart';
 
 class PlayBody extends StatefulWidget {
   PlayBody({Key key, this.songList, this.index}) : super(key: key);
@@ -77,6 +81,42 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
     Navigator.pop(context);
   }
 
+  void buildList(list, PlaySongsModel model) {
+    list.add(
+      BottomSheetMenu(
+          iconData: Icons.collections_bookmark_outlined,
+          title: '收藏到歌单',
+          function: () {
+            Navigator.pop(context);
+            showDialog(
+                context: context,
+                child: ShowPlayListDialog(track: model.curSong));
+          }),
+    );
+    list.add(
+      BottomSheetMenu(
+          iconData: Icons.people,
+          title: '歌手:${model.curSong.ar.map((a) => a.name).toList().join('/')}',
+          function: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SingerDetail(model.curSong.ar.first.id),
+              ),
+            );
+          }),
+    );
+    list.add(
+      BottomSheetMenu(
+          iconData: Icons.people,
+          title: '专辑:${model.curSong.al.name}',
+          function: () {
+            NavigatorUtil.goSheetDetailPage(context, model.curSong.al.id,
+                type: 'album');
+          }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PlaySongsModel>(builder: (context, model, child) {
@@ -104,7 +144,7 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
             children: [
               Text('${curSong.name}'),
               Text(
-                '${curSong.singer}',
+                '${curSong.ar.map((a) => a.name).toList().join('/')}',
                 style: TextStyle(fontSize: 14),
               ),
             ],
@@ -153,7 +193,7 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                                       width: ScreenUtil().setWidth(300),
                                     ),
                                     ImageHelper.getImage(
-                                        '${curSong.picUrl}?param=200y200',
+                                        '${curSong.al.picUrl}?param=200y200',
                                         height: 200,
                                         isRound: true),
                                   ],
@@ -225,9 +265,9 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                                 ).then((data) {
                                   NavigatorUtil.goCommentPage(context,
                                       data: CommentHead(
-                                        curSong.picUrl,
+                                        curSong.al.picUrl,
                                         curSong.name,
-                                        curSong.singer,
+                                        '${curSong.ar.map((a) => a.name).toList().join('/')}',
                                         data.total,
                                         '${curSong.id}',
                                         0,
@@ -238,7 +278,22 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                             IconButton(
                               color: Colors.grey,
                               icon: Icon(Icons.more_vert),
-                              onPressed: () {},
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    isDismissible: true,
+                                    isScrollControlled: false,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      List<BottomSheetMenu> list = [];
+                                      buildList(list, model);
+                                      return CommonBottomSheet(
+                                        list: list,
+                                        onItemClickListener: (index) async {
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    });
+                              },
                             ),
                           ],
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -325,7 +380,7 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                             style: mCommonTextStyle,
                           ),
                           background: Image.network(
-                            '${curSong.picUrl}?param=400y400',
+                            '${curSong.al.picUrl}?param=400y400',
                             fit: BoxFit.fitWidth,
                           ),
                         ),
@@ -338,12 +393,13 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                               children: [
                                 WidgetMusicListItemSheet(
                                   SongBeanEntity(
-                                    picUrl: d.picUrl,
+                                    picUrl: d.al.picUrl,
                                     mv: d.mv,
                                     id: '${d.id}',
                                     name: d.name,
                                     like: d.like,
-                                    singer: d.singer,
+                                    singer:
+                                        '${d.ar.map((a) => a.name).toList().join('/')}',
                                   ),
                                   model,
                                   onTap: () {

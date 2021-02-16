@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:neatease_app/entity/song_bean_entity.dart';
+import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/util/net_util.dart';
 
 class PlaySongsModel with ChangeNotifier {
@@ -10,13 +10,13 @@ class PlaySongsModel with ChangeNotifier {
   StreamController<String> _curPositionController =
       StreamController<String>.broadcast();
 
-  List<SongBeanEntity> _songs = [];
+  List<SheetDetailsPlaylistTrack> _songs = [];
   int curIndex = 0;
   Duration curSongDuration;
   AudioPlayerState _curState;
 
-  List<SongBeanEntity> get allSongs => _songs;
-  SongBeanEntity get curSong => _songs[curIndex];
+  List<SheetDetailsPlaylistTrack> get allSongs => _songs;
+  SheetDetailsPlaylistTrack get curSong => _songs[curIndex];
   Stream<String> get curPositionStream => _curPositionController.stream;
   AudioPlayerState get curState => _curState;
 
@@ -50,20 +50,20 @@ class PlaySongsModel with ChangeNotifier {
   }
 
   // 播放一首歌
-  void playSong(SongBeanEntity song) {
+  void playSong(SheetDetailsPlaylistTrack song) {
     _songs.insert(curIndex, song);
     play();
   }
 
   // 播放很多歌
-  void playSongs(List<SongBeanEntity> songs, {int index}) {
+  void playSongs(List<SheetDetailsPlaylistTrack> songs, {int index}) {
     this._songs = songs;
     if (index != null) curIndex = index;
     play();
   }
 
   // 添加歌曲
-  void addSongs(List<SongBeanEntity> songs) {
+  void addSongs(List<SheetDetailsPlaylistTrack> songs) {
     this._songs.addAll(songs);
   }
 

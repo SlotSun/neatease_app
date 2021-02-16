@@ -213,8 +213,6 @@ class _CommentPageState extends State<CommentPage> {
   ///获取评论
   Future<SongTalkEntity> _getTalk(id, page) async {
     var songTalkEntity;
-    print(id);
-    print(widget.commentHead.type);
     switch (widget.commentHead.type) {
       case 0:
         // TODO: Handle this case.
