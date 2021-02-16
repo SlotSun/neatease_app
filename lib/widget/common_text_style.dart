@@ -4,6 +4,7 @@ final tabUnTextStyle = TextStyle(fontSize: 14);
 final tabInTextStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 final commonTextStyle = TextStyle(fontSize: 16, color: Colors.black87);
 final commonWhiteTextStyle = TextStyle(fontSize: 16, color: Colors.white);
+final commonGray18TextStyle = TextStyle(fontSize: 18, color: Colors.grey);
 final commonGrayTextStyle = TextStyle(fontSize: 16, color: Colors.grey);
 final commonWhite70TextStyle = TextStyle(fontSize: 16, color: Colors.white70);
 final smallWhite70TextStyle = TextStyle(fontSize: 12, color: Colors.white70);

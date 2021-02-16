@@ -32,7 +32,7 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((call) {
-      curSongId = widget.model.curSong.id;
+      curSongId = '${widget.model.curSong.id}';
       _request();
     });
 
@@ -57,14 +57,14 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     print('lyric_build');
     // 当前歌的id变化之后要重新获取歌词
-    if (curSongId != widget.model.curSong.id) {
+    if (curSongId != '${widget.model.curSong.id}') {
       lyrics = null;
-      curSongId = widget.model.curSong.id;
+      curSongId = '${widget.model.curSong.id}';
       _request();
     }
 
     return Scaffold(
-        appBar:PreferredSize(
+        appBar: PreferredSize(
           child: AppBar(
             elevation: 0,
           ),
@@ -73,65 +73,64 @@ class _LyricPageState extends State<LyricPage> with TickerProviderStateMixin {
         backgroundColor: Colors.transparent,
         body: lyrics == null
             ? Container(
-          alignment: Alignment.center,
-          child: Text(
-            '歌词加载中...',
-            style: commonWhiteTextStyle,
-          ),
-        )
+                alignment: Alignment.center,
+                child: Text(
+                  '歌词加载中...',
+                  style: commonWhiteTextStyle,
+                ),
+              )
             : GestureDetector(
-          onTapDown: _lyricWidget.isDragging
-              ? (e) {
-            if (e.localPosition.dx > 0 &&
-                e.localPosition.dx < ScreenUtil().setWidth(100) &&
-                e.localPosition.dy >
-                    _lyricWidget.canvasSize.height / 2 -
-                        ScreenUtil().setWidth(100) &&
-                e.localPosition.dy <
-                    _lyricWidget.canvasSize.height / 2 +
-                        ScreenUtil().setWidth(100)) {
-              widget.model.seekPlay(_lyricWidget.dragLineTime);
-            }
-          }
-              : null,
-          onVerticalDragUpdate: (e) {
-            if (!_lyricWidget.isDragging) {
-              setState(() {
-                _lyricWidget.isDragging = true;
-              });
-            }
-            _lyricWidget.offsetY += e.delta.dy;
-          },
-          onVerticalDragEnd: (e) {
-            // 拖动防抖
-            cancelDragTimer();
-          },
-          child: StreamBuilder<String>(
-            stream: widget.model.curPositionStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var curTime = double.parse(snapshot.data
-                    .substring(0, snapshot.data.indexOf('-')));
-                // 获取当前在哪一行
-                int curLine = SelfUtil.findLyricIndex(curTime, lyrics);
-                if (!_lyricWidget.isDragging) {
-                  startLineAnim(curLine);
-                }
-                // 给 customPaint 赋值当前行
-                //通过修正画布高度调整歌词当前行所在高度，默认是画布最中间的位置
-                _lyricWidget.curLine = curLine;
-                return CustomPaint(
-                  size: Size(
-                      ScreenUtil().screenWidth,
-                      (ScreenUtil().screenHeight)),
-                  painter: _lyricWidget,
-                );
-              } else {
-                return Container();
-              }
-            },
-          ),
-        ));
+                onTapDown: _lyricWidget.isDragging
+                    ? (e) {
+                        if (e.localPosition.dx > 0 &&
+                            e.localPosition.dx < ScreenUtil().setWidth(100) &&
+                            e.localPosition.dy >
+                                _lyricWidget.canvasSize.height / 2 -
+                                    ScreenUtil().setWidth(100) &&
+                            e.localPosition.dy <
+                                _lyricWidget.canvasSize.height / 2 +
+                                    ScreenUtil().setWidth(100)) {
+                          widget.model.seekPlay(_lyricWidget.dragLineTime);
+                        }
+                      }
+                    : null,
+                onVerticalDragUpdate: (e) {
+                  if (!_lyricWidget.isDragging) {
+                    setState(() {
+                      _lyricWidget.isDragging = true;
+                    });
+                  }
+                  _lyricWidget.offsetY += e.delta.dy;
+                },
+                onVerticalDragEnd: (e) {
+                  // 拖动防抖
+                  cancelDragTimer();
+                },
+                child: StreamBuilder<String>(
+                  stream: widget.model.curPositionStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      var curTime = double.parse(snapshot.data
+                          .substring(0, snapshot.data.indexOf('-')));
+                      // 获取当前在哪一行
+                      int curLine = SelfUtil.findLyricIndex(curTime, lyrics);
+                      if (!_lyricWidget.isDragging) {
+                        startLineAnim(curLine);
+                      }
+                      // 给 customPaint 赋值当前行
+                      //通过修正画布高度调整歌词当前行所在高度，默认是画布最中间的位置
+                      _lyricWidget.curLine = curLine;
+                      return CustomPaint(
+                        size: Size(ScreenUtil().screenWidth,
+                            (ScreenUtil().screenHeight)),
+                        painter: _lyricWidget,
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+              ));
   }
 
   void cancelDragTimer() {

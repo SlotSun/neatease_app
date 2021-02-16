@@ -4,7 +4,6 @@ import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
 import 'package:neatease_app/util/net_util.dart';
-import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/widget/loading.dart';
 import 'package:neatease_app/widget/widget_music_list_item.dart';
 import 'package:neatease_app/widget/widget_play.dart';
@@ -22,7 +21,7 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   PlayHistoryEntity _playHistoryEntity;
   bool isLoading = true;
-  List<SongBeanEntity> list;
+  List<PlayHistoryAlldata> list;
 
   @override
   void initState() {
@@ -30,14 +29,10 @@ class _HistoryState extends State<History> {
     super.initState();
     NetUtils().getHistory(widget.id).then(
       (value) {
-        SelfUtil.historyToSongBeanEntity(value.allData).then(
-          (value) {
-            list = value;
-            setState(
-              () {
-                isLoading = false;
-              },
-            );
+        list = value.allData;
+        setState(
+          () {
+            isLoading = false;
           },
         );
       },
@@ -63,7 +58,13 @@ class _HistoryState extends State<History> {
                           itemBuilder: (context, index) {
                             var d = list[index];
                             return WidgetMusicListItem(
-                              d,
+                              SongBeanEntity(
+                                name: d.song.name,
+                                id: '${d.song.id}',
+                                singer:
+                                    '${d.song.ar.map((a) => a.name).toList().join('/')}',
+                                mv: d.song.mv,
+                              ),
                               onTap: () {
                                 playSongs(model, index);
                               },
@@ -84,7 +85,7 @@ class _HistoryState extends State<History> {
 
   void playSongs(PlaySongsModel model, int index) {
     model.playSongs(
-      list,
+      list.map((e) => e.song).toList(),
       index: index,
     );
     Navigator.push(

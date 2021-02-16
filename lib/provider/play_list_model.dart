@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
-import 'package:neatease_app/entity/user_order_entity.dart';
 import 'package:neatease_app/util/net_util.dart';
 import 'package:neatease_app/util/sp_util.dart';
 
@@ -29,6 +28,13 @@ class PlayListModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void addPlayListTrack(SheetDetailsPlaylistTrack track, int index) {
+    NetUtils()
+        .addPlaylistTracks('add', _selfCreatePlayList[index].id, '${track.id}');
+    _selfCreatePlayList[index].trackCount++;
+    notifyListeners();
+  }
+
   void addPlayList(SheetDetailsPlaylist playlist) {
     _allPlayList.add(playlist);
     _splitPlayList();
@@ -41,7 +47,7 @@ class PlayListModel with ChangeNotifier {
         : NetUtils().subPlaylist(false, playlist.id);
     _allPlayList.remove(playlist);
     _splitPlayList();
-    return  result;
+    return result;
   }
 
   Future<bool> getSelfPlaylistData(id) async {

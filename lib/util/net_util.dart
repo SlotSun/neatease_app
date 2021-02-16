@@ -6,6 +6,7 @@ import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/api/netease_cloud_music.dart';
 import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
+import 'package:neatease_app/entity/album_entity.dart';
 import 'package:neatease_app/entity/banner_entity.dart';
 import 'package:neatease_app/entity/highquality_entity.dart';
 import 'package:neatease_app/entity/level_entity.dart';
@@ -125,6 +126,16 @@ class NetUtils {
     return level;
   }
 
+  //获取专辑详情
+  Future<AlbumEntity> getAlbumDetail(id) async {
+    AlbumEntity albumEntity;
+    var map = await _doHandler("/album", {'id': id});
+    if (map != null) {
+      albumEntity = AlbumEntity.fromJson(map);
+    }
+    return albumEntity;
+  }
+
 //获取歌单详情
   Future<SheetDetailsEntity> getPlayListDetails(id) async {
     SheetDetailsEntity sheetDetails;
@@ -133,7 +144,11 @@ class NetUtils {
     var trackIds2 = sheetDetails.playlist.trackIds;
     List<int> ids = [];
     Future.forEach(trackIds2, (id) => ids.add(id.id));
+
     var list = await getSongDetails(ids.join(','));
+    list.forEach((e) {
+      e.like = Application.loveList.indexOf('${e.id}') != -1 ? true : false;
+    });
     sheetDetails.playlist.tracks = list;
     return sheetDetails;
   }
@@ -218,6 +233,12 @@ class NetUtils {
     var map = await _doHandler('/user/playlist', {'uid': userId});
     if (map != null) playlist = UserOrderEntity.fromJson(map);
     return playlist;
+  }
+
+  ///向歌单添加歌曲
+  Future<void> addPlaylistTracks(op, pid, trackIds) async {
+    var map = await _doHandler(
+        '/playlist/tracks', {'op': op, 'pid': pid, 'tracks': trackIds});
   }
 
 //推荐歌单

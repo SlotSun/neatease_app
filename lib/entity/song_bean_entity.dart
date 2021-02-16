@@ -1,3 +1,5 @@
+import 'package:neatease_app/entity/sheet_details_entity.dart';
+
 class SongBean {
   List<SongBeanEntity> players;
 
@@ -26,15 +28,25 @@ class SongBeanEntity {
   String id;
   String picUrl;
   String singer;
+  int singerId;
   int mv;
   //需要先获取喜欢歌曲列表然后比对。这一步需要异步处理
   bool like;
   String url;
+  SheetDetailsPlaylistTracksAl al;
 
-  SongBeanEntity({this.name, this.id, this.picUrl,this.singer,this.mv,this.like,this.url});
+  SongBeanEntity(
+      {this.name,
+      this.id,
+      this.picUrl,
+      this.singer,
+      this.mv,
+      this.like,
+      this.url,
+      this.al,
+      this.singerId});
 
   SongBeanEntity.fromJson(Map<String, dynamic> json) {
-
     name = json['name'];
     id = json['id'];
     picUrl = json['picUrl'];

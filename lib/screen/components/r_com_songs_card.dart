@@ -3,9 +3,7 @@ import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/personal_entity.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/navigator_util.dart';
-import 'package:neatease_app/util/net_util.dart';
-
-import 'file:///D:/WorkSpace/neatease_app/lib/screen/sheet/sheet_detail.dart';
+import 'package:neatease_app/util/number_utils.dart';
 
 class RComSongsListCard extends StatelessWidget {
   const RComSongsListCard({
@@ -44,11 +42,10 @@ class RComSongsListCard extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.only(
-          left: kDefaultPadding / 4,
-          top: kDefaultPadding / 2,
-          bottom: kDefaultPadding / 4,
-          right:  kDefaultPadding / 4
-        ),
+            left: kDefaultPadding / 4,
+            top: kDefaultPadding / 2,
+            bottom: kDefaultPadding / 4,
+            right: kDefaultPadding / 4),
         width: size.width,
         child: Column(
           children: [
@@ -56,6 +53,7 @@ class RComSongsListCard extends StatelessWidget {
               children: [
                 ImageHelper.getImage(sheet.picUrl),
                 Container(
+                  margin: EdgeInsets.all(2),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +64,7 @@ class RComSongsListCard extends StatelessWidget {
                         size: 17,
                       ),
                       Text(
-                        (sheet.playCount / 10000).toStringAsFixed(1) + '万',
+                        '${NumberUtils.amountConversion(sheet.playCount)}',
                         style: TextStyle(color: Colors.white),
                       ),
                     ],

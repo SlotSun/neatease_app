@@ -5,6 +5,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neatease_app/application.dart';
+import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/entity/today_song_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
@@ -104,7 +105,7 @@ class _DailySongsPageState extends State<DailySongsPage> {
                                 onTap: () {
                                   playSongs(model, index);
                                 },
-                                index: index + 1,
+                                index: index,
                               );
                             },
                             childCount: data.recommend.length,
@@ -126,11 +127,11 @@ class _DailySongsPageState extends State<DailySongsPage> {
   void playSongs(PlaySongsModel model, int index) {
     model.playSongs(
       data.recommend
-          .map((r) => SongBeanEntity(
-                id: '${r.id}',
+          .map((r) => SheetDetailsPlaylistTrack(
+                id: r.id,
                 name: r.name,
-                picUrl: r.album.picUrl,
-                singer: '${r.artists.map((a) => a.name).toList().join('/')}',
+                al: r.album,
+                ar: r.artists,
                 like: Application.loveList.indexOf('${r.id}') != -1
                     ? true
                     : false,

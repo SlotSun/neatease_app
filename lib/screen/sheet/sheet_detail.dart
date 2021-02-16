@@ -10,6 +10,7 @@ import 'package:neatease_app/screen/play/body.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/net_util.dart';
+import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/widget/common_text_style.dart';
 import 'package:neatease_app/widget/h_empty_view.dart';
 import 'package:neatease_app/widget/loading.dart';
@@ -30,9 +31,10 @@ import '../findmusic/components/play_list_desc_dialog.dart';
   设置一个歌单类接收返回的数据
 */
 class SheetDetail extends StatefulWidget {
-  SheetDetail(this.id);
+  SheetDetail(this.id, {this.type});
 
   final id;
+  final type;
 
   @override
   _SheetDetailState createState() => _SheetDetailState();
@@ -52,12 +54,23 @@ class _SheetDetailState extends State<SheetDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _request().then((value) => isLoading = false);
+    if (widget.type == 'album') {
+      _requestAlbum().then((value) => isLoading = false);
+    } else {
+      _request().then((value) => isLoading = false);
+    }
   }
 
   Future<bool> _request() async {
     NetUtils().getPlayListDetails(widget.id).then((value) {
       sheet = value.playlist;
+      setState(() {});
+    });
+  }
+
+  Future<bool> _requestAlbum() async {
+    NetUtils().getAlbumDetail(widget.id).then((value) {
+      sheet = SelfUtil.albumToSheetDetailsPlaylist(value);
       setState(() {});
     });
   }
@@ -217,7 +230,7 @@ class _SheetDetailState extends State<SheetDetail> {
                                               sheet.creator.nickname,
                                               sheet.commentCount,
                                               '${sheet.id}',
-                                              2,
+                                              widget.type == 'album' ? 3 : 2,
                                             ));
                                       }),
                                       FooterTabWidget(
@@ -319,18 +332,7 @@ class _SheetDetailState extends State<SheetDetail> {
 
   void playSongs(PlaySongsModel model, int index) {
     model.playSongs(
-      sheet.tracks
-          .map((r) => SongBeanEntity(
-                mv: r.mv,
-                id: '${r.id}',
-                name: r.name,
-                picUrl: r.al.picUrl,
-                singer: '${r.ar.map((a) => a.name).toList().join('/')}',
-                like: Application.loveList.indexOf('${r.id}') != -1
-                    ? true
-                    : false,
-              ))
-          .toList(),
+      sheet.tracks,
       index: index,
     );
     Navigator.push(

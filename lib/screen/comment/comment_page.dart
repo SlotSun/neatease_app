@@ -213,8 +213,6 @@ class _CommentPageState extends State<CommentPage> {
   ///获取评论
   Future<SongTalkEntity> _getTalk(id, page) async {
     var songTalkEntity;
-    print(id);
-    print(widget.commentHead.type);
     switch (widget.commentHead.type) {
       case 0:
         // TODO: Handle this case.
@@ -232,6 +230,15 @@ class _CommentPageState extends State<CommentPage> {
       case 2:
         // TODO: Handle this case.
         var answer = await comment_playlist({
+          'id': id,
+          'offset': page * 15,
+        }, await SelfUtil.getCookie());
+        if (answer.status == 200) {
+          songTalkEntity = SongTalkEntity.fromJson(answer.body);
+        }
+        break;
+      case 3:
+        var answer = await comment_album({
           'id': id,
           'offset': page * 15,
         }, await SelfUtil.getCookie());

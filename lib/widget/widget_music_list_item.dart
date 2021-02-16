@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 
 import 'common_text_style.dart';
-import 'h_empty_view.dart';
 
 class WidgetMusicListItem extends StatelessWidget {
   final SongBeanEntity _data;
@@ -21,14 +20,11 @@ class WidgetMusicListItem extends StatelessWidget {
         width: ScreenUtil().screenWidth,
         height: ScreenUtil().setWidth(52),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                _data.id == null && _data.picUrl == null
-                    ? Container()
-                    : HEmptyView(15),
                 //每日推荐
                 _data.id == null
                     ? Container()
@@ -41,9 +37,6 @@ class WidgetMusicListItem extends StatelessWidget {
                           style: mGrayTextStyle,
                         ),
                       ),
-                _data.id == null && _data.picUrl == null
-                    ? Container()
-                    : HEmptyView(10),
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

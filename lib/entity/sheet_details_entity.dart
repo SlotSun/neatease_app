@@ -600,6 +600,7 @@ class SheetDetailsPlaylistTrack {
   String name;
   List<String> tns;
   int mark;
+  bool like;
 
   SheetDetailsPlaylistTrack(
       {this.no,
@@ -636,7 +637,8 @@ class SheetDetailsPlaylistTrack {
       this.v,
       this.name,
       this.tns,
-      this.mark});
+      this.mark,
+      this.like});
 
   SheetDetailsPlaylistTrack.fromJson(Map<String, dynamic> json) {
     no = json['no'];

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/application.dart';
+import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/singer_album.dart';
 import 'package:neatease_app/entity/singer_song.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
 import 'package:neatease_app/util/cache_image.dart';
+import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/selfUtil.dart';
+import 'package:neatease_app/widget/common_text_style.dart';
 import 'package:neatease_app/widget/loading.dart';
 import 'package:neatease_app/widget/widget_music_list_item.dart';
 import 'package:provider/provider.dart';
@@ -103,13 +106,77 @@ class _SingerDetailState extends State<SingerDetail> {
                     },
                     body: TabBarView(children: [
                       buildSongs(model),
+                      buildAlbum(),
                       Container(),
-                      Container()
                     ]),
                   ),
                 );
               },
             ),
+    );
+  }
+
+  Widget buildAlbum() {
+    return Builder(
+      builder: (context) {
+        return _singerAlbum == null
+            ? LoadingPage()
+            : CustomScrollView(
+                slivers: <Widget>[
+                  SliverOverlapInjector(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(10.0),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return ListTile(
+                            dense: true,
+                            contentPadding: EdgeInsets.only(
+                                left: 5, right: 0, top: 0, bottom: 0),
+                            title: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  width: 50,
+                                  height: 50,
+                                  child: ImageHelper.getImage(
+                                      _singerAlbum.hotAlbums[index].picUrl),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${_singerAlbum.hotAlbums[index].name}',
+                                      style: TextStyle(fontSize: 15),
+                                      maxLines: 1,
+                                    ),
+                                    Text(
+                                      '共${_singerAlbum.hotAlbums[index].size}首',
+                                      style: smallGrayTextStyle,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              NavigatorUtil.goSheetDetailPage(
+                                  context, _singerAlbum.hotAlbums[index].id,
+                                  type: 'album');
+                            },
+                          );
+                        },
+                        childCount: _singerAlbum.hotAlbums.length,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+      },
     );
   }
 
@@ -158,18 +225,7 @@ class _SingerDetailState extends State<SingerDetail> {
 
   void playSongs(PlaySongsModel model, int index) {
     model.playSongs(
-      _singerSong.hotSongs
-          .map((r) => SongBeanEntity(
-                mv: r.mv,
-                id: '${r.id}',
-                name: r.name,
-                picUrl: r.al.picUrl,
-                singer: '${r.ar.map((a) => a.name).toList().join('/')}',
-                like: Application.loveList.indexOf('${r.id}') != -1
-                    ? true
-                    : false,
-              ))
-          .toList(),
+      _singerSong.hotSongs.map((r) => SheetDetailsPlaylistTrack()).toList(),
       index: index,
     );
     Navigator.push(
@@ -194,7 +250,7 @@ class _SingerDetailState extends State<SingerDetail> {
   }
 
   Future<SingerAlbum> _getSingerAlbum(id) async {
-    var answer = await album({'id': id}, await SelfUtil.getCookie());
+    var answer = await artist_album({'id': id}, await SelfUtil.getCookie());
     if (answer.status == 200) {
       var body = answer.body;
       var singerAlbum = SingerAlbum.fromJson(body);
