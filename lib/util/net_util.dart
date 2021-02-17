@@ -330,9 +330,15 @@ class NetUtils {
 
   ///获取用户播放历史
   Future<PlayHistoryEntity> getHistory(uid) async {
-    var history;
+    PlayHistoryEntity history;
     var map = await _doHandler('/user/record', {'uid': uid});
-    if (map != null) history = PlayHistoryEntity.fromJson(map);
+    if (map != null) {
+      history = PlayHistoryEntity.fromJson(map);
+      history.allData.forEach((element) {
+        element.song.like =
+            Application.loveList.indexOf('${element.song.id}') != -1;
+      });
+    }
     return history;
   }
 

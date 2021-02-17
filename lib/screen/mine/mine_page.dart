@@ -280,8 +280,6 @@ class _MinePageState extends State<MinePage>
                           Wrap(
                             children: <Widget>[
                               IconButton(
-                                  icon: Icon(Icons.add), onPressed: () {}),
-                              IconButton(
                                   icon: Icon(Icons.more_vert),
                                   onPressed: () {}),
                             ],
