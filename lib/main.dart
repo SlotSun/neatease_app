@@ -5,7 +5,7 @@ import 'package:neatease_app/provider/play_list_model.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/provider/user_model.dart';
 import 'package:neatease_app/route/routes.dart';
-import 'package:neatease_app/screen/splash/splash_page.dart';
+import 'package:neatease_app/screen/home/home_screen.dart';
 import 'package:neatease_app/util/sp_util.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
         //设计图size
         designSize: Size(375, 667),
         allowFontScaling: false,
-        child: SplashPage(),
+        child: HomeScreen(),
       ),
     );
   }

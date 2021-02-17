@@ -225,7 +225,7 @@ class _SingerDetailState extends State<SingerDetail> {
 
   void playSongs(PlaySongsModel model, int index) {
     model.playSongs(
-      _singerSong.hotSongs,
+      _singerSong.hotSongs.map((r) => SheetDetailsPlaylistTrack()).toList(),
       index: index,
     );
     Navigator.push(
@@ -240,9 +240,6 @@ class _SingerDetailState extends State<SingerDetail> {
       var body = answer.body;
       var singerSong = SingerSong.fromJson(body);
       if (singerSong.code == 200) {
-        singerSong.hotSongs.forEach((SheetDetailsPlaylistTrack element) {
-          element.like = Application.loveList.indexOf('${element.id}') != -1;
-        });
         return singerSong;
       } else {
         return null;
