@@ -132,7 +132,7 @@ class NetUtils {
 //获取mv详情
   Future<MvPlayerEntity> getMvPlayer(id) async {
     MvPlayerEntity mvPlayerEntity;
-    var map = await _doHandler("/mv/detail", {'id': id});
+    var map = await _doHandler("/mv/detail", {'mvid': id});
     if (map != null) {
       mvPlayerEntity = MvPlayerEntity.fromJson(map);
     }
