@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/screen_util.dart';
 import 'package:neatease_app/entity/highquality_entity.dart';
-import 'package:neatease_app/screen/sheet/sheet_detail.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/net_util.dart';
@@ -19,7 +18,8 @@ class SheetSqDetailsPage extends StatefulWidget {
   _SheetSqDetailsPageState createState() => _SheetSqDetailsPageState();
 }
 
-class _SheetSqDetailsPageState extends State<SheetSqDetailsPage> with AutomaticKeepAliveClientMixin {
+class _SheetSqDetailsPageState extends State<SheetSqDetailsPage>
+    with AutomaticKeepAliveClientMixin {
   _SheetSqDetailsPageState();
 
   FocusNode _blankNode = FocusNode();
@@ -122,6 +122,7 @@ class _SheetSqDetailsPageState extends State<SheetSqDetailsPage> with AutomaticK
     _controller.dispose();
     super.dispose();
   }
+
   @override
   bool get wantKeepAlive => true;
 }

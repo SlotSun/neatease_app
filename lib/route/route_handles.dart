@@ -8,6 +8,7 @@ import 'package:neatease_app/screen/login/login_page.dart';
 import 'package:neatease_app/screen/mine/history/history.dart';
 import 'package:neatease_app/screen/mine/user_cloud/user_cloud.dart';
 import 'package:neatease_app/screen/play/body.dart';
+import 'package:neatease_app/screen/play_video/play_video.dart';
 import 'package:neatease_app/screen/sheet/sheet_detail.dart';
 import 'package:neatease_app/util/fluro_convert_utils.dart';
 
@@ -33,6 +34,13 @@ var dailySongsHandler = new Handler(
 var playSongsHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
   return PlayBody();
+});
+
+///跳转到视频播放页
+var livePageHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
+  var id = int.parse(params['id'].first);
+  return PlayVideo(mvid: id);
 });
 
 ///跳转到评论页

@@ -84,7 +84,7 @@ packages:
       name: common_utils
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.4"
   convert:
     dependency: transitive
     description:
@@ -197,13 +197,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.2.1"
-  fish_redux:
-    dependency: "direct main"
-    description:
-      name: fish_redux
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.3.4"
   fluro:
     dependency: "direct main"
     description:
@@ -250,7 +243,7 @@ packages:
       name: flutter_screenutil
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.0.2+8"
+    version: "4.0.3+1"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -288,7 +281,7 @@ packages:
       name: fluttertoast
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "7.1.6"
+    version: "7.1.8"
   get_it:
     dependency: "direct main"
     description:
@@ -559,7 +552,7 @@ packages:
       name: sqflite_common
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.3+1"
   stack_trace:
     dependency: transitive
     description:
@@ -672,6 +665,27 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0-nullsafety.3"
+  video_player:
+    dependency: "direct main"
+    description:
+      name: video_player
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.1"
+  video_player_platform_interface:
+    dependency: transitive
+    description:
+      name: video_player_platform_interface
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.2.0"
+  video_player_web:
+    dependency: transitive
+    description:
+      name: video_player_web
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.4+1"
   win32:
     dependency: transitive
     description:

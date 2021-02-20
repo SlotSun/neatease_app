@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/screenutil_init.dart';
 import 'package:neatease_app/provider/play_list_model.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/provider/user_model.dart';
@@ -56,7 +56,9 @@ class MyApp extends StatelessWidget {
         //设计图size
         designSize: Size(375, 667),
         allowFontScaling: false,
-        child: HomeScreen(),
+        builder: () {
+          return HomeScreen();
+        },
       ),
     );
   }

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:neatease_app/screen/findmusic/anchorradio/components/body.dart';
-import 'file:///D:/WorkSpace/neatease_app/lib/screen/search/search.dart';
-import 'package:neatease_app/screen/findmusic/components/src/search_static_bar.dart';
+import 'package:neatease_app/screen/findmusic/radio/components/body.dart';
 import 'package:neatease_app/screen/findmusic/recommendation/components/body.dart';
 import 'package:neatease_app/screen/top/top.dart';
 import 'package:neatease_app/widget/common_text_style.dart';
+
 import 'file:///D:/WorkSpace/neatease_app/lib/screen/findmusic/songscatelog/s_cate_body.dart';
-import 'package:neatease_app/widget/widget_play.dart';
 
 class FindHomeScreen extends StatefulWidget {
   FindHomeScreen({Key key}) : super(key: key);
@@ -69,9 +65,6 @@ class _FindHomeScreenState extends State<FindHomeScreen>
                   Padding(
                     padding: EdgeInsets.all(0),
                     child: TabBar(
-
-
-
                       labelStyle: bold13TextStyle,
                       //选中的样式
                       unselectedLabelColor: Colors.black,

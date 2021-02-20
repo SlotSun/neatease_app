@@ -46,8 +46,7 @@ dependencies:
   flutter_screenutil: ^4.0.2+5
   #滚动横幅
   flutter_swiper: ^1.1.6
-   #咸鱼Redux状态管理暂时不会用
-  fish_redux: ^0.3.4
+
   #侧边栏滑动按钮
   flutter_slidable: ^0.5.7
   synchronized: ^2.1.0+2
@@ -57,6 +56,7 @@ dependencies:
   provider: ^4.3.3
   #路由
   fluro: ^1.7.8
+
   #刷新
   flutter_easyrefresh: ^2.1.8
   fluttertoast: ^7.1.6
@@ -65,6 +65,8 @@ dependencies:
   extended_text: ^0.6.6
   permission_handler: ^4.0.0
   shared_preferences: ^0.5.12+4
+  #视频播放
+  video_player: ^1.0.1
   
 dev_dependencies:
   flutter_test:

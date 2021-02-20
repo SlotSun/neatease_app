@@ -42,6 +42,10 @@ class NavigatorUtil {
     _navigateTo(context, "${Routes.sheetDetail}?data=$id&type=$type");
   }
 
+  /// 播放歌曲页面
+  static void goPlayVideoPage(BuildContext context, {@required int id}) {
+    _navigateTo(context, "${Routes.livePage}?id=$id");
+  }
   // /// 排行榜首页
   // static void goTopListPage(BuildContext context) {
   //   _navigateTo(context, Routes.topList);

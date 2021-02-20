@@ -13,8 +13,11 @@ import 'package:neatease_app/entity/level_entity.dart';
 import 'package:neatease_app/entity/like_song_list_entity.dart';
 import 'package:neatease_app/entity/login_entity.dart';
 import 'package:neatease_app/entity/lyric_entity.dart';
+import 'package:neatease_app/entity/mv_player_entity.dart';
+import 'package:neatease_app/entity/mv_url.dart';
 import 'package:neatease_app/entity/new_song_entity.dart';
 import 'package:neatease_app/entity/personal_entity.dart';
+import 'package:neatease_app/entity/personnal_mv.dart';
 import 'package:neatease_app/entity/play_history_entity.dart';
 import 'package:neatease_app/entity/search_song_entity.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
@@ -124,6 +127,26 @@ class NetUtils {
       level = levelEntity.data.level;
     }
     return level;
+  }
+
+//获取mv详情
+  Future<MvPlayerEntity> getMvPlayer(id) async {
+    MvPlayerEntity mvPlayerEntity;
+    var map = await _doHandler("/mv/detail", {'id': id});
+    if (map != null) {
+      mvPlayerEntity = MvPlayerEntity.fromJson(map);
+    }
+    return mvPlayerEntity;
+  }
+
+  ///获取mv播放地址
+  Future<String> getMvUrl(id) async {
+    MvUrl mvUrl;
+    var map = await _doHandler("/mv/url", {'id': id});
+    if (map != null) {
+      mvUrl = MvUrl.fromJson(map);
+    }
+    return mvUrl.data.url;
   }
 
   //获取专辑详情
@@ -247,6 +270,16 @@ class NetUtils {
     var map = await _doHandler('/personalized');
     if (map != null) playlist = PersonalEntity.fromJson(map);
     return playlist;
+  }
+
+  ///推荐mv
+  Future<PersonalMVEntity> getPersonalMv() async {
+    PersonalMVEntity personalMVEntity;
+    var map = await _doHandler('/personalized/mv');
+    if (map != null) {
+      personalMVEntity = PersonalMVEntity.fromJson(map);
+    }
+    return personalMVEntity;
   }
 
 //banner

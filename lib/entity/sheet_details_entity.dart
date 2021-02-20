@@ -667,7 +667,9 @@ class SheetDetailsPlaylistTrack {
     mv = json['mv'];
     al = json['al'] != null
         ? new SheetDetailsPlaylistTracksAl.fromJson(json['al'])
-        : null;
+        : json['album'] != null
+            ? new SheetDetailsPlaylistTracksAl.fromJson(json['album'])
+            : null;
     l = json['l'] != null
         ? new SheetDetailsPlaylistTracksL.fromJson(json['l'])
         : null;
@@ -681,6 +683,11 @@ class SheetDetailsPlaylistTrack {
     if (json['ar'] != null) {
       ar = new List<SheetDetailsPlaylistTracksAr>();
       (json['ar'] as List).forEach((v) {
+        ar.add(new SheetDetailsPlaylistTracksAr.fromJson(v));
+      });
+    } else if (json['artists'] != null) {
+      ar = new List<SheetDetailsPlaylistTracksAr>();
+      (json['artists'] as List).forEach((v) {
         ar.add(new SheetDetailsPlaylistTracksAr.fromJson(v));
       });
     }

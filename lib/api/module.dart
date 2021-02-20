@@ -111,6 +111,7 @@ final handles = <String, Handler>{
   "/mv/first": mv_first,
   "/mv/sub": mv_sub,
   "/mv/sublist": mv_sublist,
+  "/mv/url": mv_url,
   "/personal_fm": personal_fm,
   "/personalized/djprogram": personalized_djprogram,
   "/personalized/mv": personalized_mv,

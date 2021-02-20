@@ -2,26 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/personal_entity.dart';
 import 'package:neatease_app/util/cache_image.dart';
-import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/number_utils.dart';
 
+///带播放数的卡片
 class RComSongsListCard extends StatelessWidget {
   const RComSongsListCard({
     Key key,
     @required this.size,
-    this.img,
-    this.viewed,
-    this.title,
     this.press,
-    this.sizeH,
     this.sheet,
   }) : super(key: key);
-
-  final String img;
-  final int viewed;
-  final String title;
   final Function press;
-  final Size sizeH;
   final Size size;
   final PersonalResult sheet;
 
@@ -29,17 +20,7 @@ class RComSongsListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       //添加一个路由跳转到歌单详情,从而实现loading
-      onTap: () async {
-        NavigatorUtil.goSheetDetailPage(context, sheet.id);
-        // var data = await NetUtils().getPlayListDetails(sheet.id);
-        // if (data.playlist != null)
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => SheetDetail(data.playlist),
-        //     ),
-        //   );
-      },
+      onTap: press,
       child: Container(
         margin: EdgeInsets.only(
             left: kDefaultPadding / 4,

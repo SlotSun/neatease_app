@@ -12,6 +12,7 @@ class ShowPlayListDialog extends StatefulWidget {
   final SheetDetailsPlaylistTrack track;
 
   ShowPlayListDialog({Key key, this.track}) : super(key: key);
+
   @override
   _ShowPlayListDialogState createState() => _ShowPlayListDialogState();
 }
@@ -49,15 +50,26 @@ class _ShowPlayListDialogState extends State<ShowPlayListDialog> {
                               '收藏到歌单',
                               style: commonGray18TextStyle,
                             ),
+                            Container(
+                              width: 80,
+                            ),
                             IconButton(
-                                icon: Icon(Icons.add),
-                                onPressed: () {
-                                  //创建之后应该刷新当前界面添加新的歌单:应该抽离成状态监听
-                                  showDialog(
-                                    context: context,
-                                    child: CreatePlayListDialog(),
-                                  );
-                                }),
+                              icon: Icon(Icons.add),
+                              onPressed: () {
+                                //创建之后应该刷新当前界面添加新的歌单:应该抽离成状态监听
+                                showDialog(
+                                  context: context,
+                                  child: CreatePlayListDialog(),
+                                );
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.minimize_sharp),
+                              onPressed: () {
+                                //创建之后应该刷新当前界面添加新的歌单:应该抽离成状态监听
+                                Navigator.pop(context);
+                              },
+                            ),
                           ],
                         ),
                       ),
