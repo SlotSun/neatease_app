@@ -377,20 +377,8 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                     Divider(),
                     ListTile(
-                      title: Text('我的好友'),
-                      leading: Icon(Icons.people),
-                      onTap: () {},
-                    ),
-                    Divider(),
-                    ListTile(
                       title: Text('附近的人'),
                       leading: Icon(Icons.add_location),
-                      onTap: () {},
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text('音乐云盘'),
-                      leading: Icon(Icons.cloud),
                       onTap: () {},
                     ),
                     Divider(),
@@ -409,16 +397,6 @@ class _HomeScreenState extends State<HomeScreen>
                       },
                     ),
                   ],
-                ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    height: ScreenUtil().setWidth(50),
-                    color: Colors.green,
-                    child: Row(
-                      children: <Widget>[],
-                    ),
-                  ),
                 ),
               ],
             ),

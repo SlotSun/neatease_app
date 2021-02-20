@@ -249,7 +249,7 @@ class _SheetDetailState extends State<SheetDetail> {
                             ),
                           ),
                         ),
-                        expandedHeight: ScreenUtil().setHeight(400),
+                        expandedHeight: ScreenUtil().setHeight(420),
                         backgroundImg: sheet.coverImgUrl,
                         title: '歌单',
                         count: sheet == null ? null : sheet.trackCount,
