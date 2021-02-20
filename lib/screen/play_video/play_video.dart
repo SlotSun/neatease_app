@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:neatease_app/entity/mv_player_entity.dart';
 import 'package:neatease_app/util/cache_image.dart';
@@ -19,6 +20,7 @@ class _PlayVideoState extends State<PlayVideo> {
   MvPlayerEntity _mvPlayerEntity;
   String url;
   int isLoading = 0;
+  ChewieController chewieController;
 
   _PlayVideoState();
 
@@ -38,6 +40,12 @@ class _PlayVideoState extends State<PlayVideo> {
     NetUtils().getMvUrl(widget.mvid).then((value) => url = value).then((value) {
       _controller = VideoPlayerController.network(url)
         ..initialize().then((_) {
+          chewieController = ChewieController(
+            videoPlayerController: _controller,
+            aspectRatio: 3 / 2, //宽高比
+            autoPlay: false, //自动播放
+            looping: false, //循环播放
+          );
           setState(() {
             isLoading++;
           });
@@ -90,7 +98,9 @@ class _PlayVideoState extends State<PlayVideo> {
         child: _controller.value.initialized
             ? AspectRatio(
                 aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
+                child: Chewie(
+                  controller: chewieController,
+                ),
               )
             : Container(),
       ),
@@ -155,6 +165,8 @@ class _PlayVideoState extends State<PlayVideo> {
   @override
   void dispose() {
     super.dispose();
+
     _controller.dispose();
+    chewieController.dispose();
   }
 }
