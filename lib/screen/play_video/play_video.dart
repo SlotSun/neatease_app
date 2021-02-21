@@ -2,6 +2,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:neatease_app/entity/mv_player_entity.dart';
 import 'package:neatease_app/util/cache_image.dart';
+import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/net_util.dart';
 import 'package:neatease_app/widget/loading.dart';
 import 'package:video_player/video_player.dart';
@@ -42,8 +43,8 @@ class _PlayVideoState extends State<PlayVideo> {
         ..initialize().then((_) {
           chewieController = ChewieController(
             videoPlayerController: _controller,
-            aspectRatio: 3 / 2, //宽高比
-            autoPlay: false, //自动播放
+            aspectRatio: _controller.value.aspectRatio, //宽高比
+            autoPlay: true, //自动播放
             looping: false, //循环播放
           );
           setState(() {
@@ -75,18 +76,6 @@ class _PlayVideoState extends State<PlayVideo> {
           buildRoomInfo(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
-      ),
     );
   }
 
@@ -114,12 +103,18 @@ class _PlayVideoState extends State<PlayVideo> {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.only(left: 10, right: 10),
-        leading: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: ImageHelper.getImage(
-              '${_mvPlayerEntity.data.cover}',
-              height: 50,
-            )),
+        leading: InkWell(
+          onTap: () {
+            NavigatorUtil.goSingerDetailPage(
+                context, _mvPlayerEntity.data.artistId);
+          },
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: ImageHelper.getImage(
+                '${_mvPlayerEntity.data.cover}',
+                height: 50,
+              )),
+        ),
         title: Text(_mvPlayerEntity.data.name),
         subtitle: Text(_mvPlayerEntity.data.artists.first.name),
         trailing: IconButton(

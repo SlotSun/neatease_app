@@ -6,8 +6,8 @@ import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/provider/user_model.dart';
 import 'package:neatease_app/screen/mine/mine_page.dart';
-import 'package:neatease_app/screen/search/search.dart';
 import 'package:neatease_app/util/cache_image.dart';
+import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/util/sp_util.dart';
 import 'package:neatease_app/widget/common_text_style.dart';
@@ -328,8 +328,7 @@ class _HomeScreenState extends State<HomeScreen>
                               color: Colors.black87,
                             ),
                             onPressed: () {
-                              showSearch(
-                                  context: context, delegate: SearchPage());
+                              NavigatorUtil.goSearchPage(context);
                             },
                           ),
                         ),

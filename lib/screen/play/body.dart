@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/constant/paly_state.dart';
 import 'package:neatease_app/entity/comment_head.dart';
@@ -122,6 +123,9 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Consumer<PlaySongsModel>(builder: (context, model, child) {
       var curSong = model.curSong;
+      if (curSong.like == null) {
+        curSong.like = Application.loveList.indexOf('${curSong.id}') != -1;
+      }
       if (model.curState == AudioPlayerState.PLAYING) {
         // 如果当前状态是在播放当中，则唱片一直旋转，
         // 并且唱针是移除状态
