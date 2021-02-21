@@ -8,6 +8,7 @@ import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/album_entity.dart';
 import 'package:neatease_app/entity/banner_entity.dart';
+import 'package:neatease_app/entity/fm_entity.dart';
 import 'package:neatease_app/entity/highquality_entity.dart';
 import 'package:neatease_app/entity/level_entity.dart';
 import 'package:neatease_app/entity/like_song_list_entity.dart';
@@ -193,7 +194,7 @@ class NetUtils {
     return songDetails;
   }
 
-//每日推荐
+  //每日推荐
   Future<TodaySongEntity> getTodaySongs() async {
     var todaySongs;
     var map = await _doHandler('/recommend/songs');
@@ -201,7 +202,20 @@ class NetUtils {
     return todaySongs;
   }
 
-//获取个人信息
+  ///FM
+  Future<List<SheetDetailsPlaylistTrack>> getFM() async {
+    FmEntity fmEntity;
+    var map = await _doHandler('/personal_fm');
+    if (map != null) fmEntity = FmEntity.fromJson(map);
+    return fmEntity.data;
+  }
+
+  ///FM垃圾箱
+  Future<void> fmTrash(id) async {
+    var map = await _doHandler('/fm_trash');
+  }
+
+  //获取个人信息
   Future<UserProfileEntity> getUserProfile(userId) async {
     var profile;
     var map = await _doHandler("/user/detail", {'uid': userId});
@@ -210,7 +224,7 @@ class NetUtils {
     return profile;
   }
 
-//获取评论预览
+  //获取评论预览
   Future<SongTalkEntity> getSongTalkCommants(
     id, {
     @required Map<String, dynamic> params,

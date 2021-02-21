@@ -8,6 +8,7 @@ import 'package:neatease_app/screen/login/login_page.dart';
 import 'package:neatease_app/screen/mine/history/history.dart';
 import 'package:neatease_app/screen/mine/user_cloud/user_cloud.dart';
 import 'package:neatease_app/screen/play/body.dart';
+import 'package:neatease_app/screen/play/play_fm.dart';
 import 'package:neatease_app/screen/play_video/play_video.dart';
 import 'package:neatease_app/screen/search/search.dart';
 import 'package:neatease_app/screen/sheet/sheet_detail.dart';
@@ -42,6 +43,12 @@ var dailySongsHandler = new Handler(
 var playSongsHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
   return PlayBody();
+});
+
+///跳转到Fm播放页
+var playFmHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
+  return PlayFm();
 });
 
 ///跳转到视频播放页

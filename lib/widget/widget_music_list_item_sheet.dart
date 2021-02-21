@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
+import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/widget/v_empty_view.dart';
 
 import 'common_text_style.dart';
@@ -86,7 +87,10 @@ class WidgetMusicListItemSheet extends StatelessWidget {
                     ? Container()
                     : IconButton(
                         icon: Icon(Icons.play_circle_outline),
-                        onPressed: () {},
+                        onPressed: () {
+                          _model.togglePlay();
+                          NavigatorUtil.goPlayVideoPage(context, id: _data.mv);
+                        },
                         color: Colors.grey,
                       ),
               ),

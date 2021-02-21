@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neatease_app/constant/constants.dart';
+import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/provider/user_model.dart';
+import 'package:neatease_app/screen/play/play_fm.dart';
 import 'package:neatease_app/screen/singer/singer.dart';
 import 'package:neatease_app/util/navigator_util.dart';
+import 'package:neatease_app/util/net_util.dart';
 import 'package:provider/provider.dart';
 
 class FMAndEveryComAndHotButton extends StatelessWidget {
@@ -34,14 +37,20 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(100),
                 ),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return Singer();
-                    }));
+                child: Consumer<PlaySongsModel>(
+                  builder: (_, model, __) {
+                    return IconButton(
+                      onPressed: () async {
+                        var songs = await NetUtils().getFM();
+                        model.playSongs(songs, index: 0);
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          return PlayFm();
+                        }));
+                      },
+                      icon: SvgPicture.asset('assets/icons/fm.svg'),
+                    );
                   },
-                  icon: SvgPicture.asset('assets/icons/fm.svg'),
                 ),
               ),
               Text('私人FM'),

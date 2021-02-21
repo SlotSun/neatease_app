@@ -42,6 +42,10 @@ class NavigatorUtil {
     _navigateTo(context, Routes.dailySongs);
   }
 
+  static void goFmPage(BuildContext context) {
+    _navigateTo(context, Routes.fm);
+  }
+
   /// 歌单详情
   static void goSheetDetailPage(BuildContext context, int id, {String type}) {
     _navigateTo(context, "${Routes.sheetDetail}?data=$id&type=$type");
