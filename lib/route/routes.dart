@@ -18,6 +18,7 @@ class Routes {
   static String sheetDetail = '/sheet_detail';
   static String search = '/search';
   static String userCloud = 'user_cloud';
+  static String singerDetail = '/singer_detail';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = new Handler(
@@ -34,6 +35,7 @@ class Routes {
     router.define(playSongs, handler: playSongsHandler);
     router.define(comment, handler: commentHandler);
     router.define(sheetDetail, handler: sheetDetailHandler);
-    router.define(search, handler: null);
+    router.define(search, handler: searchHandler);
+    router.define(singerDetail, handler: singerDetailHandler);
   }
 }

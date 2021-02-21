@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/application.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
@@ -149,10 +150,14 @@ class _SingerDetailState extends State<SingerDetail> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      '${_singerAlbum.hotAlbums[index].name}',
-                                      style: TextStyle(fontSize: 15),
-                                      maxLines: 1,
+                                    Container(
+                                      child: Text(
+                                        '${_singerAlbum.hotAlbums[index].name}',
+                                        style: TextStyle(fontSize: 15),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                      width: ScreenUtil().screenWidth - 100,
                                     ),
                                     Text(
                                       '共${_singerAlbum.hotAlbums[index].size}首',
@@ -210,6 +215,7 @@ class _SingerDetailState extends State<SingerDetail> {
                           playSongs(model, index);
                         },
                         index: index,
+                        model: model,
                       ),
                     ],
                   );
