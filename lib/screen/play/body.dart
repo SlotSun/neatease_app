@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:neatease_app/application.dart';
+import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/constant/paly_state.dart';
 import 'package:neatease_app/entity/comment_head.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
@@ -121,6 +123,9 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Consumer<PlaySongsModel>(builder: (context, model, child) {
       var curSong = model.curSong;
+      if (curSong.like == null) {
+        curSong.like = Application.loveList.indexOf('${curSong.id}') != -1;
+      }
       if (model.curState == AudioPlayerState.PLAYING) {
         // 如果当前状态是在播放当中，则唱片一直旋转，
         // 并且唱针是移除状态
@@ -144,7 +149,9 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
             children: [
               Text('${curSong.name}'),
               Text(
-                '${curSong.ar.map((a) => a.name).toList().join('/')}',
+                curSong.ar != null
+                    ? '${curSong.ar.map((a) => a.name).toList().join('/')}'
+                    : '未知歌手',
                 style: TextStyle(fontSize: 14),
               ),
             ],
@@ -193,7 +200,9 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                                       width: ScreenUtil().setWidth(300),
                                     ),
                                     ImageHelper.getImage(
-                                        '${curSong.al.picUrl}?param=200y200',
+                                        curSong.al != null
+                                            ? '${curSong.al.picUrl}?param=200y200'
+                                            : vilUrl,
                                         height: 200,
                                         isRound: true),
                                   ],
@@ -393,13 +402,14 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                               children: [
                                 WidgetMusicListItemSheet(
                                   SongBeanEntity(
-                                    picUrl: d.al.picUrl,
+                                    picUrl: d.al != null ? d.al.picUrl : vilUrl,
                                     mv: d.mv,
                                     id: '${d.id}',
                                     name: d.name,
                                     like: d.like,
-                                    singer:
-                                        '${d.ar.map((a) => a.name).toList().join('/')}',
+                                    singer: d.ar != null
+                                        ? '${d.ar.map((a) => a.name).toList().join('/')}'
+                                        : '未知歌手',
                                   ),
                                   model,
                                   onTap: () {

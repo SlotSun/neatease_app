@@ -5,6 +5,7 @@ class Constants {
   static bool dark = false;
   static List<int> loveSongIds = [];
   static int userId = SpUtil.getInt(USER_ID);
+
 //  static String playSongHistory = "PLAY_SONG_HISTORY";
 //  static String playSongListHistory = "PLAY_SONG_LIST_HISTORY";
 //
@@ -52,6 +53,7 @@ class Constants {
 //  static String itunes_top = 'http://p2.music.126.net/WTpbsVfxeB6qDs_3_rnQtg==/109951163601178881.jpg?param=200y200';
 }
 
+const String vilUrl = 'https://slotsun.gitee.io/img/iali69.jpg';
 const String playSongHistory = "PLAY_SONG_HISTORY";
 const String playSongListHistory = "PLAY_SONG_LIST_HISTORY";
 

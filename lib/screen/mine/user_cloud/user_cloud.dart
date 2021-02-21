@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:neatease_app/api/module.dart';
+import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/cloud_entity.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
@@ -10,6 +11,7 @@ import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/widget/loading.dart';
 import 'package:neatease_app/widget/widget_load_footer.dart';
 import 'package:neatease_app/widget/widget_music_list_item.dart';
+import 'package:neatease_app/widget/widget_play.dart';
 import 'package:provider/provider.dart';
 
 import '../../../application.dart';
@@ -42,47 +44,54 @@ class _UserCloudState extends State<UserCloud> {
               appBar: AppBar(
                 title: Text('云盘数据'),
               ),
-              body: Container(
-                child: EasyRefresh(
-                  onLoad: () async {
-                    offset++;
-                    print(songs.length);
-                    _getUserCloud(offset);
-                    _controller.finishLoad(noMore: songs.length >= 1000);
-                  },
-                  footer: LoadFooter(),
-                  controller: _controller,
-                  child: Consumer<PlaySongsModel>(
-                    builder: (context, model, child) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          var d = songs[index];
-                          return WidgetMusicListItem(
-                            SongBeanEntity(
-                              id: '${d.id}',
-                              name: d.name,
-                              mv: d.mv,
-                              like:
-                                  Application.loveList.indexOf('${d.id}') != -1
-                                      ? true
-                                      : false,
-                              singer:
-                                  '${d.ar.map((a) => a.name).toList().join('/')}',
-                              picUrl: d.al.picUrl,
-                            ),
-                            onTap: () {
-                              playSongs(model, index);
+              body: Stack(
+                children: <Widget>[
+                  Container(
+                    child: EasyRefresh(
+                      onLoad: () async {
+                        offset++;
+                        print(songs.length);
+                        _getUserCloud(offset);
+                        _controller.finishLoad(noMore: songs.length >= 1000);
+                      },
+                      footer: LoadFooter(),
+                      controller: _controller,
+                      child: Consumer<PlaySongsModel>(
+                        builder: (context, model, child) {
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var d = songs[index];
+                              return WidgetMusicListItem(
+                                SongBeanEntity(
+                                  id: '${d.id}',
+                                  name: d.name,
+                                  mv: d.mv,
+                                  like:
+                                      Application.loveList.indexOf('${d.id}') !=
+                                              -1
+                                          ? true
+                                          : false,
+                                  singer: d.ar != null
+                                      ? '${d.ar.map((a) => a.name).toList().join('/')}'
+                                      : '未知歌手',
+                                  picUrl: d.al != null ? d.al.picUrl : vilUrl,
+                                ),
+                                onTap: () {
+                                  playSongs(model, index);
+                                },
+                                index: index,
+                              );
                             },
-                            index: index,
+                            itemCount: songs.length,
                           );
                         },
-                        itemCount: songs.length,
-                      );
-                    },
+                      ),
+                    ),
                   ),
-                ),
+                  PlayWidget(),
+                ],
               ),
             ),
     );

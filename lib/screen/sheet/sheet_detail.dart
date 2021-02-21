@@ -249,7 +249,8 @@ class _SheetDetailState extends State<SheetDetail> {
                             ),
                           ),
                         ),
-                        expandedHeight: ScreenUtil().setHeight(400),
+                        expandedHeight: ScreenUtil()
+                            .setHeight(ScreenUtil().screenHeight * 0.5),
                         backgroundImg: sheet.coverImgUrl,
                         title: '歌单',
                         count: sheet == null ? null : sheet.trackCount,
@@ -277,6 +278,7 @@ class _SheetDetailState extends State<SheetDetail> {
                                     playSongs(model, index);
                                   },
                                   index: index,
+                                  model: model,
                                 );
                               },
                               childCount: sheet.tracks.length,

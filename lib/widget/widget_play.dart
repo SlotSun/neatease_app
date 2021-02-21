@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/util/cache_image.dart';
@@ -30,7 +31,9 @@ class PlayWidget extends StatelessWidget {
             },
             child: Row(
               children: <Widget>[
-                ImageHelper.getImage(curSong.al.picUrl, height: 50),
+                ImageHelper.getImage(
+                    curSong.ar != null ? curSong.al.picUrl : vilUrl,
+                    height: 50),
                 HEmptyView(10),
                 Expanded(
                   child: Column(
@@ -44,7 +47,9 @@ class PlayWidget extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        '${curSong.ar.map((a) => a.name).toList().join('/')}',
+                        curSong.ar != null
+                            ? '${curSong.ar.map((a) => a.name).toList().join('/')}'
+                            : '未知歌手',
                         style: common13TextStyle,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

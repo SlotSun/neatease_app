@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/screen_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neatease_app/provider/user_model.dart';
 import 'package:neatease_app/widget/common_button.dart';
@@ -106,11 +105,11 @@ class __LoginWidgetState extends State<_LoginWidget> {
           VEmptyView(50),
           TextField(
             controller: _phoneController,
-            keyboardType: TextInputType.phone,
+            keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-                hintText: 'Phone',
+                hintText: 'Email',
                 prefixIcon: Icon(
-                  Icons.phone_iphone,
+                  Icons.email_outlined,
                   color: Colors.grey,
                 )),
           ),

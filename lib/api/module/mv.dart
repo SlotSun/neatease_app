@@ -37,3 +37,14 @@ Handler mv_sublist = (query, cookie) {
   return request('POST', 'https://music.163.com/weapi/mv/first', data,
       crypto: Crypto.weapi, cookies: cookie);
 };
+
+///mv播放地址
+Handler mv_url = (query, cookie) {
+  final data = {
+    'id': query['id'],
+    'r': query['r'] ?? 1080,
+  };
+  return request(
+      'POST', 'https://music.163.com/weapi/song/enhance/play/mv/url', data,
+      crypto: Crypto.weapi, cookies: cookie);
+};

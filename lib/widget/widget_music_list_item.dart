@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
+import 'package:neatease_app/provider/play_songs_model.dart';
+import 'package:neatease_app/util/navigator_util.dart';
 
 import 'common_text_style.dart';
 
@@ -8,8 +10,9 @@ class WidgetMusicListItem extends StatelessWidget {
   final SongBeanEntity _data;
   final VoidCallback onTap;
   final int index;
+  final PlaySongsModel model;
 
-  WidgetMusicListItem(this._data, {this.onTap, this.index});
+  WidgetMusicListItem(this._data, {this.onTap, this.index, this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +66,11 @@ class WidgetMusicListItem extends StatelessWidget {
                       ? Container()
                       : IconButton(
                           icon: Icon(Icons.play_circle_outline),
-                          onPressed: () {},
+                          onPressed: () {
+                            model.pausePlay();
+                            NavigatorUtil.goPlayVideoPage(context,
+                                id: _data.mv);
+                          },
                           color: Colors.grey,
                         ),
                 ),

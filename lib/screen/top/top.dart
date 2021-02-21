@@ -78,6 +78,7 @@ class _TopState extends State<Top> with AutomaticKeepAliveClientMixin {
                       valueColor: AlwaysStoppedAnimation(
                           Color.fromRGBO(0, 153, 37, .6))),
                   child: SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
                     child: Column(
                       children: <Widget>[
                         ListTile(

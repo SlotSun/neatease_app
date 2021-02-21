@@ -1,130 +1,159 @@
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:neatease_app/screen/components/list_title.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:neatease_app/api/module.dart';
+import 'package:neatease_app/entity/search_hot_entity.dart';
+import 'package:neatease_app/screen/search/search_detail/search_detail.dart';
+import 'package:neatease_app/util/selfUtil.dart';
+import 'package:neatease_app/widget/widget_blackWidget.dart';
 
-class SearchPage extends SearchDelegate<String> {
-  String searchHint = "搜索音乐、歌词、电台";
-  //接受服务器端返回的建议
-  List<String> suggestionCardTitle = [
-    '动物世界',
-    '梁博',
-    '清明雨上',
-    '皮皮虾我们走',
-    '进击的巨人',
-    '极乐净土',
-    '张国荣',
-    '烟鬼',
-    '周杰伦',
-    '陈奕迅',
-  ];
-  List<Widget> buildSuggestionCard(BuildContext context) {
-    List<Widget> list = [];
-    for (var title in suggestionCardTitle) {
-      list.add(buildSearchSuggestionCard(context,title));
-    }
-    return list;
+class SearchPage extends StatefulWidget {
+  @override
+  _SearchPageState createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  TextEditingController textEditingController;
+  List<SearchHotData> data = [];
+  int _count;
+
+  _request() {
+    _hotSearch().then((value) => data = value).then((value) {
+      setState(() {});
+    });
   }
 
   @override
-  String get searchFieldLabel => searchHint;
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return <Widget>[
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = "";
-          showSuggestions(context);
-        },
-      ),
-    ];
-  }
-
-/*这个方法返回一个控件，显示为搜索框左侧的按钮，一般设置为返回，这里返回一个具有动态效果的返回按钮：*/
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
-      onPressed: () {
-        close(context, null);
-      },
-    );
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _request();
   }
 
   @override
-  Widget buildResults(BuildContext context) {
-    return Center(
-      child: Text('12312321'),
-    );
-  }
-
-/*这个方法返回一个控件，显示为搜索内容区域的建议内容。*/
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        children: <Widget>[
-          Divider(),
-          NeteaseListTitle(
-            title: '歌手分类',
-            fontSize: 20,
-            press: () {},
-          ),
-          Divider(),
-          NeteaseListTitle(
-            title: '热门搜索',
-            fontSize: 17,
-          ),
-          //流布局
-
-          Wrap(
-            children: buildSuggestionCard(context),
-          ),
-        ],
-      ),
-    );
-  }
-
-/*这个方法返回一个主题，也就是可以自定义搜索界面的主题样式：*/
-  @override
-  ThemeData appBarTheme(BuildContext context) {
-    // TODO: implement appBarTheme
-    return super.appBarTheme(context);
-  }
-
-  Widget buildSearchSuggestionCard(BuildContext context,String title) {
-    return InkWell(
-      onTap: () {
-        query = title;
-        showResults(context);
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(5.0),
-            margin: EdgeInsets.fromLTRB(10.0, 5, 0, 5.0),
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(2),
-              color: Colors.grey,
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 200.0),
-              child: Text(
-                '$title',
-                style: TextStyle(
-                  fontSize: 17,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomPadding: false,
+      body: blackWidget(
+        null,
+        Container(
+          child: Column(
+            children: <Widget>[
+              PreferredSize(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        top: MediaQueryData.fromWindow(window).padding.top + 5,
+                        left: 5,
+                        right: 5),
+                    child: Card(
+                      elevation: 2,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Row(
+                        children: <Widget>[
+                          InkWell(
+                            child: Container(
+                              width: ScreenUtil().setWidth(40),
+                              height: ScreenUtil().setHeight(40),
+                              child: Icon(
+                                Icons.arrow_back,
+                                size: 22,
+                              ),
+                            ),
+                            onTap: () => Navigator.pop(context),
+                          ),
+//            IconButton(icon: Icon(Icons.arrow_back,size: Screens.setSp(22),), onPressed: ()=>Navigator.pop(viewService.context)),
+                          Expanded(
+                              child: TextField(
+                            controller: textEditingController,
+                            textInputAction: TextInputAction.search,
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 16),
+                            decoration: InputDecoration(
+                                isDense: true,
+                                hintText: '请输入搜索内容',
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: ScreenUtil().setHeight(10),
+                                    horizontal: ScreenUtil().setWidth(5))),
+                            onSubmitted: (text) {
+                              if (text != '') {
+                                Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                    builder: (context) {
+                                      return new SearchDetail(
+                                        searchContent: text,
+                                      );
+                                    },
+                                  ),
+                                );
+                              } else
+                                Fluttertoast.showToast(msg: '搜索内容不能为空');
+                            },
+                          ))
+                        ],
+                      ),
+                    ),
+                  ),
+                  preferredSize: Size.fromHeight(ScreenUtil().setHeight(54))),
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.all(0),
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      dense: true,
+                      title: Row(
+                        children: <Widget>[
+                          Text(
+                            '${index + 1}. ',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Expanded(child: Text(data[index].searchWord))
+                        ],
+                      ),
+                      subtitle: Text(data[index].content),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          new MaterialPageRoute(
+                            builder: (context) {
+                              return new SearchDetail(
+                                searchContent: data[index].searchWord,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  itemCount: data.length,
                 ),
-                softWrap: true,
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
+  }
+
+  void setCount(int count) {
+    Future.delayed(Duration(milliseconds: 300), () {
+      if (mounted) {
+        setState(() {
+          _count = count;
+        });
+      }
+    });
+  }
+
+  Future<List<SearchHotData>> _hotSearch() async {
+    var answer = await search_hot_details({}, await SelfUtil.getCookie());
+    return answer.status == 200
+        ? SearchHotEntity.fromJson(answer.body).data
+        : null;
   }
 }

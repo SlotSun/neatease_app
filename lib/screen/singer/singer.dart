@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/screen_util.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/entity/singer_entity.dart';
 import 'package:neatease_app/screen/singer/singer_detail/singer_detail.dart';

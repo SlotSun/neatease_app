@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/screen_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/provider/user_model.dart';
 import 'package:neatease_app/screen/mine/mine_page.dart';
-import 'package:neatease_app/screen/search/search.dart';
 import 'package:neatease_app/util/cache_image.dart';
+import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/util/sp_util.dart';
 import 'package:neatease_app/widget/common_text_style.dart';
@@ -328,8 +328,7 @@ class _HomeScreenState extends State<HomeScreen>
                               color: Colors.black87,
                             ),
                             onPressed: () {
-                              showSearch(
-                                  context: context, delegate: SearchPage());
+                              NavigatorUtil.goSearchPage(context);
                             },
                           ),
                         ),
@@ -377,20 +376,8 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                     Divider(),
                     ListTile(
-                      title: Text('我的好友'),
-                      leading: Icon(Icons.people),
-                      onTap: () {},
-                    ),
-                    Divider(),
-                    ListTile(
                       title: Text('附近的人'),
                       leading: Icon(Icons.add_location),
-                      onTap: () {},
-                    ),
-                    Divider(),
-                    ListTile(
-                      title: Text('音乐云盘'),
-                      leading: Icon(Icons.cloud),
                       onTap: () {},
                     ),
                     Divider(),
@@ -409,16 +396,6 @@ class _HomeScreenState extends State<HomeScreen>
                       },
                     ),
                   ],
-                ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    height: ScreenUtil().setWidth(50),
-                    color: Colors.green,
-                    child: Row(
-                      children: <Widget>[],
-                    ),
-                  ),
                 ),
               ],
             ),

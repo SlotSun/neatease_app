@@ -8,7 +8,10 @@ import 'package:neatease_app/screen/login/login_page.dart';
 import 'package:neatease_app/screen/mine/history/history.dart';
 import 'package:neatease_app/screen/mine/user_cloud/user_cloud.dart';
 import 'package:neatease_app/screen/play/body.dart';
+import 'package:neatease_app/screen/play_video/play_video.dart';
+import 'package:neatease_app/screen/search/search.dart';
 import 'package:neatease_app/screen/sheet/sheet_detail.dart';
+import 'package:neatease_app/screen/singer/singer_detail/singer_detail.dart';
 import 'package:neatease_app/util/fluro_convert_utils.dart';
 
 ///跳转到home
@@ -23,6 +26,12 @@ var loginHandler = new Handler(
   return LoginPage();
 });
 
+///跳转到搜索
+var searchHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
+  return SearchPage();
+});
+
 ///跳转到每日推荐
 var dailySongsHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
@@ -33,6 +42,13 @@ var dailySongsHandler = new Handler(
 var playSongsHandler = new Handler(
     handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
   return PlayBody();
+});
+
+///跳转到视频播放页
+var livePageHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
+  var id = int.parse(params['id'].first);
+  return PlayVideo(mvid: id);
 });
 
 ///跳转到评论页
@@ -51,6 +67,13 @@ var sheetDetailHandler = new Handler(
     id,
     type: type,
   );
+});
+
+///跳转到歌单详情
+var singerDetailHandler = new Handler(
+    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
+  var id = int.parse(params['id'].first);
+  return SingerDetail(id);
 });
 
 ///跳转到听歌历史
