@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
         width: ScreenUtil().screenWidth,
         child: Image.asset(
           'assets/images/welcome.png',
-          fit: BoxFit.fitWidth,
+          fit: BoxFit.fill,
         ),
       ),
     );

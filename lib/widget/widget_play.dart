@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
@@ -27,7 +28,11 @@ class PlayWidget extends StatelessWidget {
           child = GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
-              NavigatorUtil.goPlaySongsPage(context);
+              if (Application.fm == true) {
+                NavigatorUtil.goFmPage(context);
+              } else {
+                NavigatorUtil.goPlaySongsPage(context);
+              }
             },
             child: Row(
               children: <Widget>[

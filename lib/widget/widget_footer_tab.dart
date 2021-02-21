@@ -23,7 +23,7 @@ class FooterTabWidget extends StatelessWidget {
               width: ScreenUtil().setWidth(50),
               height: ScreenUtil().setWidth(50),
             ),
-            VEmptyView(8),
+            VEmptyView(ScreenUtil().setWidth(8)),
             Text(
               text,
               style: common14White70TextStyle,
