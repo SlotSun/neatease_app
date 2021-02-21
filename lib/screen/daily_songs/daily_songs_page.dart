@@ -106,6 +106,7 @@ class _DailySongsPageState extends State<DailySongsPage> {
                                   playSongs(model, index);
                                 },
                                 index: index,
+                                model: model,
                               );
                             },
                             childCount: data.recommend.length,

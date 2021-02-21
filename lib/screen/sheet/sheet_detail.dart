@@ -153,7 +153,7 @@ class _SheetDetailState extends State<SheetDetail> {
                             padding: EdgeInsets.only(
                               left: ScreenUtil().setWidth(35),
                               right: ScreenUtil().setWidth(35),
-                              top: ScreenUtil().setWidth(120),
+                              top: ScreenUtil().setWidth(90),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,7 +161,7 @@ class _SheetDetailState extends State<SheetDetail> {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    HEmptyView(20),
+                                    HEmptyView(ScreenUtil().setWidth(20)),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -175,7 +175,7 @@ class _SheetDetailState extends State<SheetDetail> {
                                             overflow: TextOverflow.ellipsis,
                                             style: mWhiteBoldTextStyle,
                                           ),
-                                          VEmptyView(10),
+                                          VEmptyView(ScreenUtil().setWidth(10)),
                                           Row(
                                             children: <Widget>[
                                               sheet == null
@@ -204,7 +204,7 @@ class _SheetDetailState extends State<SheetDetail> {
                                                     ),
                                             ],
                                           ),
-                                          VEmptyView(10),
+                                          VEmptyView(ScreenUtil().setWidth(10)),
                                           //详情
                                           buildDescription(),
                                         ],
@@ -249,8 +249,7 @@ class _SheetDetailState extends State<SheetDetail> {
                             ),
                           ),
                         ),
-                        expandedHeight: ScreenUtil()
-                            .setHeight(ScreenUtil().screenHeight * 0.5),
+                        expandedHeight: ScreenUtil().setHeight(340),
                         backgroundImg: sheet.coverImgUrl,
                         title: '歌单',
                         count: sheet == null ? null : sheet.trackCount,

@@ -26,7 +26,7 @@ https://www.jianshu.com/p/04eb531da438
 
 - [x] 登录/退出登录
 - [x] 主页banner
-- [ ] Fm
+- [x] Fm
 - [x] 搜索
 - [x] 每日歌曲推荐
 - [x] 排行榜

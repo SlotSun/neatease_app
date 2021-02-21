@@ -70,11 +70,13 @@ class _PlayVideoState extends State<PlayVideo> {
       );
     }
     return Scaffold(
-      body: Column(
-        children: [
-          buildPlayer(),
-          buildRoomInfo(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            buildPlayer(),
+            buildRoomInfo(),
+          ],
+        ),
       ),
     );
   }

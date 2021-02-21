@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:neatease_app/application.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/util/net_util.dart';
 
@@ -102,12 +103,17 @@ class PlaySongsModel with ChangeNotifier {
   }
 
   /// 下一首
-  void nextPlay() {
+  Future<void> nextPlay() async {
     if (curIndex >= _songs.length - 1) {
+      if (Application.fm == true) {
+        var songs = await NetUtils().getFM();
+        playSongs(songs, index: 0);
+      }
       curIndex = 0;
     } else {
       curIndex++;
     }
+
     play();
   }
 

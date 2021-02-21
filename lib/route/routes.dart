@@ -15,6 +15,7 @@ class Routes {
   static String login = '/login';
   static String playList = "/play_list";
   static String playSongs = "/play";
+  static String fm = '/fm';
   static String sheetDetail = '/sheet_detail';
   static String search = '/search';
   static String userCloud = 'user_cloud';
@@ -26,6 +27,7 @@ class Routes {
       print("ROUTE WAS NOT FOUND !!!");
       return HomeScreen();
     });
+    router.define(fm, handler: playFmHandler);
     router.define(userCloud, handler: userCloudHandler);
     router.define(history, handler: mineHistorHandler);
     router.define(home, handler: homeHandler);
