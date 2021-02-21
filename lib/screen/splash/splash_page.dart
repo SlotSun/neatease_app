@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neatease_app/util/navigator_util.dart';
 
 class SplashPage extends StatefulWidget {
@@ -26,11 +27,10 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        child: Center(
-          child: Image.asset(
-            'assets/images/welcome.png',
-            fit: BoxFit.fill,
-          ),
+        width: ScreenUtil().screenWidth,
+        child: Image.asset(
+          'assets/images/welcome.png',
+          fit: BoxFit.fitWidth,
         ),
       ),
     );
