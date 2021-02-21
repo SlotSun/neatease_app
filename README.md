@@ -27,7 +27,7 @@ https://www.jianshu.com/p/04eb531da438
 - [x] 登录/退出登录
 - [x] 主页banner
 - [ ] Fm
-- [ ] 搜索
+- [x] 搜索
 - [x] 每日歌曲推荐
 - [x] 排行榜
 - [x] 歌单推荐
@@ -43,8 +43,8 @@ https://www.jianshu.com/p/04eb531da438
 - [X] 发表单曲评论
 - [X] 专辑评论
 - [x] 歌单评论
-- [ ] mv播放(计划使用fijkplayer)
-- [ ] mv 
+- [x] mv播放(chewie: ^0.12.2)
+- [x] mv 
 - [ ] 电台播放
 - [ ] 电台节目评论
 - [ ] 获取歌曲详情
