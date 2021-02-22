@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil_init.dart';
+import 'package:neatease_app/api/answer.dart';
+import 'package:neatease_app/api/netease_cloud_music.dart';
 import 'package:neatease_app/provider/play_list_model.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/provider/user_model.dart';
@@ -18,6 +23,7 @@ Future<void> main() async {
   Routes.configureRoutes(router);
   Application.router = router;
   Application.setupLocator();
+  await _startServer();
   //异步实例化sp：怎么确保调用时已实例化完成
   await SpUtil.getInstance();
   Application.setLoveList();
@@ -33,6 +39,32 @@ Future<void> main() async {
       create: (_) => PlayListModel(),
     ),
   ], child: MyApp()));
+}
+
+Future<HttpServer> _startServer({address = "localhost", int port = 3000}) {
+  return HttpServer.bind(address, port, shared: true).then((server) {
+    print("start listen at: http://$address:$port");
+    server.listen((request) {
+      _handleRequest(request);
+    });
+    return server;
+  });
+}
+
+void _handleRequest(HttpRequest request) async {
+  final answer = await cloudMusicApi(request.uri.path,
+          parameter: request.uri.queryParameters, cookie: request.cookies)
+      .catchError((e, s) async {
+    print(e.toString());
+    return Answer();
+  });
+
+  request.response.statusCode = answer.status;
+  request.response.cookies.addAll(answer.cookie);
+  request.response.write(json.encode(answer.body));
+  request.response.close();
+
+  print("request[${answer.status}] : ${request.uri}");
 }
 
 class MyApp extends StatelessWidget {
