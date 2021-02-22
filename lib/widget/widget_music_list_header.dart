@@ -24,7 +24,7 @@ class MusicListHeader extends StatelessWidget implements PreferredSizeWidget {
         color: Colors.white,
         child: Consumer<PlaySongsModel>(builder: (context, model, child) {
           return InkWell(
-            onTap: (){
+            onTap: () {
               onTap(model);
             },
             child: SizedBox.fromSize(
@@ -34,7 +34,7 @@ class MusicListHeader extends StatelessWidget implements PreferredSizeWidget {
                   HEmptyView(8),
                   Icon(
                     Icons.play_circle_outline,
-                    size: ScreenUtil().setWidth(50),
+                    size: ScreenUtil().setWidth(40),
                   ),
                   HEmptyView(10),
                   Padding(

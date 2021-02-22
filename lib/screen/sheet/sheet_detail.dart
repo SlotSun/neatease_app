@@ -212,15 +212,16 @@ class _SheetDetailState extends State<SheetDetail> {
                                     ),
                                   ],
                                 ),
-                                VEmptyView(15),
                                 Container(
                                   margin: EdgeInsets.only(
                                       top: ScreenUtil().setWidth(12)),
                                   alignment: Alignment.center,
                                   child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: <Widget>[
                                       FooterTabWidget(
-                                          'assets/images/icon_comment.png',
+                                          Icons.comment_bank_outlined,
                                           '${sheet == null ? "评论" : sheet.commentCount}',
                                           () {
                                         NavigatorUtil.goCommentPage(context,
@@ -234,13 +235,11 @@ class _SheetDetailState extends State<SheetDetail> {
                                             ));
                                       }),
                                       FooterTabWidget(
-                                          'assets/images/icon_share.png',
+                                          Icons.share_sharp,
                                           '${sheet == null ? "分享" : sheet.shareCount}',
                                           () {}),
                                       FooterTabWidget(
-                                          'assets/images/icon_download.png',
-                                          '下载',
-                                          () {}),
+                                          Icons.arrow_circle_down, '下载', () {}),
                                       isSubscribed(),
                                     ],
                                   ),
@@ -249,7 +248,7 @@ class _SheetDetailState extends State<SheetDetail> {
                             ),
                           ),
                         ),
-                        expandedHeight: ScreenUtil().setHeight(340),
+                        expandedHeight: 400,
                         backgroundImg: sheet.coverImgUrl,
                         title: '歌单',
                         count: sheet == null ? null : sheet.trackCount,
@@ -315,8 +314,8 @@ class _SheetDetailState extends State<SheetDetail> {
                 },
                 child: Icon(
                   Icons.favorite,
-                  color: sheet.subscribed ? Colors.red : Colors.grey,
-                  size: 40,
+                  color: sheet.subscribed ? Colors.red : Colors.grey[400],
+                  size: ScreenUtil().setWidth(40),
                 ),
               ),
               VEmptyView(8),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
@@ -23,12 +23,13 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Column(
             children: [
               Container(
-                width: (size.width) / 5,
-                height: (size.width) / 5,
+                width: (size.width) / 6,
+                height: (size.width) / 6,
                 margin: EdgeInsets.only(
                     left: kDefaultPadding,
                     right: kDefaultPadding,
@@ -48,7 +49,10 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
                           return PlayFm();
                         }));
                       },
-                      icon: SvgPicture.asset('assets/icons/fm.svg'),
+                      icon: Icon(
+                        Icons.radio,
+                        size: ScreenUtil().screenWidth / 10,
+                      ),
                     );
                   },
                 ),
@@ -59,8 +63,8 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
           Column(
             children: [
               Container(
-                width: (size.width) / 5,
-                height: (size.width) / 5,
+                width: (size.width) / 6,
+                height: (size.width) / 6,
                 margin: EdgeInsets.only(
                     left: kDefaultPadding,
                     right: kDefaultPadding,
@@ -78,7 +82,10 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
                             ? NavigatorUtil.goDailySongsPage(context)
                             : Fluttertoast.showToast(msg: '未登录');
                       },
-                      icon: SvgPicture.asset('assets/icons/today.svg'),
+                      icon: Icon(
+                        Icons.receipt_outlined,
+                        size: ScreenUtil().screenWidth / 10,
+                      ),
                     );
                   },
                 ),
@@ -89,8 +96,8 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
           Column(
             children: [
               Container(
-                width: (size.width) / 5,
-                height: (size.width) / 5,
+                width: (size.width) / 6,
+                height: (size.width) / 6,
                 margin: EdgeInsets.only(
                     left: kDefaultPadding,
                     right: kDefaultPadding,
@@ -106,7 +113,10 @@ class FMAndEveryComAndHotButton extends StatelessWidget {
                       return Singer();
                     }));
                   },
-                  icon: SvgPicture.asset('assets/icons/round_rank_fill.svg'),
+                  icon: Icon(
+                    Icons.trending_up_outlined,
+                    size: ScreenUtil().screenWidth / 10,
+                  ),
                 ),
               ),
               Text('热门歌手'),

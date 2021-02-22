@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-final tabUnTextStyle = TextStyle(fontSize: 14);
-final tabInTextStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+final tabUnTextStyle = TextStyle(fontSize: ScreenUtil().setSp(14));
+final tabInTextStyle =
+    TextStyle(fontSize: ScreenUtil().setSp(20), fontWeight: FontWeight.bold);
 final commonTextStyle = TextStyle(fontSize: 16, color: Colors.black87);
 final commonWhiteTextStyle = TextStyle(fontSize: 16, color: Colors.white);
 final commonGray18TextStyle = TextStyle(fontSize: 18, color: Colors.grey);
 final commonGrayTextStyle = TextStyle(fontSize: 16, color: Colors.grey);
-final commonWhite70TextStyle = TextStyle(fontSize: 16, color: Colors.white70);
-final smallWhite70TextStyle = TextStyle(fontSize: 12, color: Colors.white70);
+final commonWhite70TextStyle =
+    TextStyle(fontSize: ScreenUtil().setSp(16), color: Colors.white70);
+final smallWhite70TextStyle =
+    TextStyle(fontSize: ScreenUtil().setSp(12), color: Colors.white70);
 final smallWhite30TextStyle = TextStyle(fontSize: 12, color: Colors.white30);
 final smallWhiteTextStyle = TextStyle(fontSize: 12, color: Colors.white);
 final smallRedTextStyle = TextStyle(fontSize: 12, color: Colors.red);
 final mWhiteTextStyle = TextStyle(fontSize: 18, color: Colors.white);
 final mCommonTextStyle = TextStyle(fontSize: 18, color: Colors.black87);
 final mGrayTextStyle = TextStyle(fontSize: 18, color: Colors.grey);
-final mWhiteBoldTextStyle =
-    TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold);
+final mWhiteBoldTextStyle = TextStyle(
+    fontSize: ScreenUtil().setSp(18),
+    color: Colors.white,
+    fontWeight: FontWeight.bold);
 final mBlackBoldTextStyle =
     TextStyle(fontSize: 18, color: Colors.black87, fontWeight: FontWeight.bold);
 final mGrayBoldTextStyle =
@@ -59,4 +65,5 @@ final common18TextStyle = TextStyle(fontSize: 18, color: Colors.black87);
 final common10RedTextStyle = TextStyle(fontSize: 10, color: Colors.red);
 final common13BlueTextStyle = TextStyle(fontSize: 13, color: Colors.blue);
 final common14BlueTextStyle = TextStyle(fontSize: 14, color: Colors.blue);
-final common14White70TextStyle = TextStyle(fontSize: 14, color: Colors.white70);
+final common14White70TextStyle =
+    TextStyle(fontSize: ScreenUtil().setSp(14), color: Colors.white70);

@@ -5,11 +5,11 @@ import 'common_text_style.dart';
 import 'v_empty_view.dart';
 
 class FooterTabWidget extends StatelessWidget {
-  final String img;
+  final IconData iconData;
   final String text;
   final VoidCallback onTap;
 
-  FooterTabWidget(this.img, this.text, this.onTap);
+  FooterTabWidget(this.iconData, this.text, this.onTap);
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,10 @@ class FooterTabWidget extends StatelessWidget {
         onTap: onTap,
         child: Column(
           children: <Widget>[
-            Image.asset(
-              img,
-              width: ScreenUtil().setWidth(50),
-              height: ScreenUtil().setWidth(50),
+            Icon(
+              iconData,
+              size: ScreenUtil().setWidth(40),
+              color: Colors.white60,
             ),
             VEmptyView(ScreenUtil().setWidth(8)),
             Text(
