@@ -23,6 +23,7 @@ Future<void> main() async {
   Routes.configureRoutes(router);
   Application.router = router;
   Application.setupLocator();
+  //根据本地服务器接口进行网络调试：实际运行中不使用
   await _startServer();
   //异步实例化sp：怎么确保调用时已实例化完成
   await SpUtil.getInstance();
