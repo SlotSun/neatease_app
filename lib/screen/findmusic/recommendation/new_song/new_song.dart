@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 
 Widget widgetNewSong(List<NewSongResult> newSong, BuildContext context) {
   return Container(
-    height: ScreenUtil().setHeight(145),
+    height: ScreenUtil().setWidth(155),
     child: ListView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
@@ -67,6 +67,7 @@ Widget widgetNewSong(List<NewSongResult> newSong, BuildContext context) {
                       ),
                       child: Text(
                         d.name,
+                        style: TextStyle(fontSize: 12),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
