@@ -92,39 +92,39 @@ class _SheetDetailState extends State<SheetDetail> {
   /// 构建歌单简介
   Widget buildDescription() {
     return GestureDetector(
-      onTap: () {
-        showGeneralDialog(
-          context: context,
-          pageBuilder: (BuildContext buildContext, Animation<double> animation,
-              Animation<double> secondaryAnimation) {
-            return PlayListDescDialog(sheet);
-          },
-          barrierDismissible: true,
-          barrierLabel:
-              MaterialLocalizations.of(context).modalBarrierDismissLabel,
-          transitionDuration: const Duration(milliseconds: 150),
-          transitionBuilder: _buildMaterialDialogTransitions,
-        );
-      },
-      child: sheet != null && sheet.description != null
-          ? Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    sheet.description,
-                    style: smallWhite70TextStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Icon(
-                  Icons.keyboard_arrow_right,
-                  color: Colors.white70,
-                ),
-              ],
-            )
-          : Container(),
-    );
+        onTap: () {
+          showGeneralDialog(
+            context: context,
+            pageBuilder: (BuildContext buildContext,
+                Animation<double> animation,
+                Animation<double> secondaryAnimation) {
+              return PlayListDescDialog(sheet);
+            },
+            barrierDismissible: true,
+            barrierLabel:
+                MaterialLocalizations.of(context).modalBarrierDismissLabel,
+            transitionDuration: const Duration(milliseconds: 150),
+            transitionBuilder: _buildMaterialDialogTransitions,
+          );
+        },
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                sheet.description != null
+                    ? sheet.description
+                    : sheet.description = '暂无描述',
+                style: smallWhite70TextStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Icon(
+              Icons.keyboard_arrow_right,
+              color: Colors.white70,
+            ),
+          ],
+        ));
   }
 
   @override

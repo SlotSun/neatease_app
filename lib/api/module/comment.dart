@@ -84,7 +84,7 @@ Handler comment_like = (query, cookies) {
     data['threadId'] = query['threadId'];
   }
   return request(
-      'POST', ' https://music.163.com/weapi/v1/comment/${query['t']}', data,
+      'POST', 'https://music.163.com/weapi/v1/comment/${query['t']}', data,
       crypto: Crypto.weapi, cookies: cookies);
 };
 

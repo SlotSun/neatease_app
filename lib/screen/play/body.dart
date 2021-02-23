@@ -202,7 +202,7 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                                     ),
                                     ImageHelper.getImage(
                                         curSong.al != null
-                                            ? '${curSong.al.picUrl}?param=200y200'
+                                            ? '${curSong.al.picUrl}?param=400y400'
                                             : vilUrl,
                                         height: ScreenUtil().setWidth(200),
                                         isRound: true),

@@ -1,12 +1,9 @@
 package com.example.neatease_app;
 
 import androidx.annotation.NonNull;
-
-
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
     public static MainActivity activity;
@@ -25,21 +22,6 @@ public class MainActivity extends FlutterActivity {
                 }
         );
     }
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        GeneratedPluginRegistrant.registerWith(this);
-//        activity = this;
-//        FlutterStarrySkyPlugin.registerWith(this.registrarFor("flutter_starry_sky"));
-//        //通讯名称,回到手机桌面
-//
-//    }
-
-
-
-
-
 
     @Override
     protected void onDestroy() {

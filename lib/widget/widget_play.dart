@@ -92,17 +92,16 @@ class PlayWidget extends StatelessWidget {
 
         return Container(
           width: ScreenUtil().screenWidth,
-          height: ScreenUtil().setWidth(80),
+          height: ScreenUtil().setWidth(70),
           decoration: BoxDecoration(
               border: Border(top: BorderSide(color: Colors.grey[200])),
               color: Colors.white),
           alignment: Alignment.topCenter,
-          padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(10)),
+          padding: EdgeInsets.symmetric(vertical: ScreenUtil().setWidth(5)),
           child: Container(
             width: ScreenUtil().screenWidth,
             height: ScreenUtil().setWidth(80),
-            padding:
-                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
+            padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(8)),
             alignment: Alignment.center,
             child: child,
           ),
