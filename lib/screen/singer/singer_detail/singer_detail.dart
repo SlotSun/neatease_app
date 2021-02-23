@@ -4,12 +4,14 @@ import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/application.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/singer_album.dart';
+import 'package:neatease_app/entity/singer_mv.dart';
 import 'package:neatease_app/entity/singer_song.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/navigator_util.dart';
+import 'package:neatease_app/util/number_utils.dart';
 import 'package:neatease_app/util/selfUtil.dart';
 import 'package:neatease_app/widget/common_text_style.dart';
 import 'package:neatease_app/widget/loading.dart';
@@ -29,6 +31,7 @@ class _SingerDetailState extends State<SingerDetail> {
   bool isLoading = true;
   SingerSong _singerSong;
   SingerAlbum _singerAlbum;
+  SingerMV _singerMV;
   List<String> tabs = [
     "热门单曲",
     "专辑",
@@ -47,6 +50,7 @@ class _SingerDetailState extends State<SingerDetail> {
   Future _request() async {
     _singerAlbum = await _getSingerAlbum(widget.id);
     _singerSong = await _getSingerDetails(widget.id);
+    _singerMV = await _getSingerMV(widget.id);
   }
 
   @override
@@ -108,7 +112,7 @@ class _SingerDetailState extends State<SingerDetail> {
                     body: TabBarView(children: [
                       buildSongs(model),
                       buildAlbum(),
-                      Container(),
+                      buildMV(),
                     ]),
                   ),
                 );
@@ -229,6 +233,73 @@ class _SingerDetailState extends State<SingerDetail> {
     );
   }
 
+  Widget buildMV() {
+    return Builder(
+      builder: (context) {
+        return _singerMV == null
+            ? LoadingPage()
+            : CustomScrollView(
+                slivers: <Widget>[
+                  SliverOverlapInjector(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(10.0),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return ListTile(
+                            dense: true,
+                            contentPadding: EdgeInsets.only(
+                                left: 5, right: 0, top: 0, bottom: 0),
+                            title: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  width: 50,
+                                  height: 50,
+                                  child: ImageHelper.getImage(
+                                      _singerMV.mvs[index].imgurl),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        '${_singerMV.mvs[index].name}',
+                                        style: TextStyle(fontSize: 15),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                      width: ScreenUtil().screenWidth - 100,
+                                    ),
+                                    Text(
+                                      '时长：${NumberUtils.formatTime(_singerMV.mvs[index].duration)}',
+                                      style: smallGrayTextStyle,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            onTap: () {
+                              NavigatorUtil.goPlayVideoPage(context,
+                                  id: _singerMV.mvs[index].id);
+                            },
+                          );
+                        },
+                        childCount: _singerMV.mvs.length,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+      },
+    );
+  }
+
   void playSongs(PlaySongsModel model, int index) {
     model.playSongs(
       _singerSong.hotSongs,
@@ -238,6 +309,21 @@ class _SingerDetailState extends State<SingerDetail> {
       context,
       MaterialPageRoute(builder: (context) => PlayBody()),
     );
+  }
+
+  Future<SingerMV> _getSingerMV(id) async {
+    SingerMV singerMV;
+    var answer = await artist_mv({'id': id}, await SelfUtil.getCookie());
+    if (answer.status == 200) {
+      singerMV = SingerMV.fromJson(answer.body);
+      if (singerMV.code == 200) {
+        return singerMV;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
   }
 
   Future<SingerSong> _getSingerDetails(id) async {

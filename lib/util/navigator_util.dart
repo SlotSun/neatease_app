@@ -56,7 +56,7 @@ class NavigatorUtil {
     _navigateTo(context, "${Routes.singerDetail}?id=$id");
   }
 
-  /// 播放歌曲页面
+  /// 播放MV页面：如何实现每次跳转都终结掉play
   static void goPlayVideoPage(BuildContext context, {@required int id}) {
     _navigateTo(context, "${Routes.livePage}?id=$id");
   }
