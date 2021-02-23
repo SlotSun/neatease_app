@@ -351,9 +351,29 @@ class _CommentPageState extends State<CommentPage> {
             subtitle: Text(
                 '${DateTime.fromMillisecondsSinceEpoch(commants.time)}',
                 style: TextStyle(color: Colors.grey)),
-            trailing: Text(
-              '${commants.likedCount > 10000 ? '${(commants.likedCount / 10000).toStringAsFixed(1)}w' : commants.likedCount} 赞',
-              style: TextStyle(color: Colors.blue),
+            trailing: InkWell(
+              onTap: () {
+                _commentLike(
+                        widget.commentHead.id,
+                        commants.user.userId,
+                        !commants.liked ? 'like' : 'unlike',
+                        widget.commentHead.type)
+                    .then((value) {
+                  if (value == true) {
+                    Fluttertoast.showToast(
+                        msg: commants.liked ? '取消成功' : '点赞成功');
+                    setState(() {
+                      commants.liked = !commants.liked;
+                      commants.likedCount++;
+                    });
+                  }
+                });
+              },
+              child: Text(
+                '${commants.likedCount > 10000 ? '${(commants.likedCount / 10000).toStringAsFixed(1)}w' : commants.likedCount} 赞',
+                style: TextStyle(
+                    color: commants.liked ? Colors.red[400] : Colors.blue),
+              ),
             ),
           ),
           Container(
