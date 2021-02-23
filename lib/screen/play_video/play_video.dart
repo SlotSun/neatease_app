@@ -1,10 +1,12 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:neatease_app/entity/mv_player_entity.dart';
+import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/net_util.dart';
 import 'package:neatease_app/widget/loading.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayVideo extends StatefulWidget {
@@ -22,7 +24,7 @@ class _PlayVideoState extends State<PlayVideo> {
   String url;
   int isLoading = 0;
   ChewieController chewieController;
-
+  PlaySongsModel _songModel;
   _PlayVideoState();
 
   //是否关注
@@ -34,6 +36,9 @@ class _PlayVideoState extends State<PlayVideo> {
   @override
   void initState() {
     super.initState();
+    _songModel = Provider.of<PlaySongsModel>(context, listen: false);
+    //无论什么状态都要停止播放
+    _songModel.pausePlay();
     initRoom();
   }
 

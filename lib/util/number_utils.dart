@@ -9,9 +9,9 @@ class NumberUtils {
     //最终返回的结果值
     String result = amount.toString();
 
-    if(amount > MILLION * 10 && amount <= MILLIONS){
+    if (amount > MILLION * 10 && amount <= MILLIONS) {
       result = '${(amount / MILLION).toStringAsFixed(1)}$MILLION_UNIT';
-    }else if (amount > MILLIONS && amount <= BILLION) {
+    } else if (amount > MILLIONS && amount <= BILLION) {
       //如果值刚好是10000万，则要变成1亿
       if (amount == BILLION) {
         result = '${amount ~/ BILLION}$BILLION_UNIT';
@@ -21,7 +21,6 @@ class NumberUtils {
     }
     //金额大于1亿
     else if (amount > BILLION) {
-
       result = '${amount ~/ BILLION}$BILLION_UNIT';
     } else {
       result = amount.toString();
@@ -29,11 +28,17 @@ class NumberUtils {
     return result;
   }
 
-  static String formatNum(num n){
-    if(n >= MILLION){
+  static String formatTime(num n) {
+    String result = n.toString();
+    result = '${n ~/ 60000}分' + '${((n % 60000 / 60000) * 60).floor()}秒';
+    return result;
+  }
+
+  static String formatNum(num n) {
+    if (n >= MILLION) {
       var r = n ~/ MILLION;
       return '${r >= 10 ? 10 : r}w+';
-    }else{
+    } else {
       return '$n';
     }
   }
