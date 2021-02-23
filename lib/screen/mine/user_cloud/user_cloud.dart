@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:neatease_app/api/module.dart';
-import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/cloud_entity.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
-import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
 import 'package:neatease_app/util/selfUtil.dart';
@@ -64,20 +62,7 @@ class _UserCloudState extends State<UserCloud> {
                             itemBuilder: (context, index) {
                               var d = songs[index];
                               return WidgetMusicListItem(
-                                SongBeanEntity(
-                                  id: '${d.id}',
-                                  name: d.name,
-                                  mv: d.mv,
-                                  like:
-                                      Application.loveList.indexOf('${d.id}') !=
-                                              -1
-                                          ? true
-                                          : false,
-                                  singer: d.ar != null
-                                      ? '${d.ar.map((a) => a.name).toList().join('/')}'
-                                      : '未知歌手',
-                                  picUrl: d.al != null ? d.al.picUrl : vilUrl,
-                                ),
+                                d,
                                 onTap: () {
                                   playSongs(model, index);
                                 },

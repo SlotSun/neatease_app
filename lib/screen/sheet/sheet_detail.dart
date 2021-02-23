@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:neatease_app/application.dart';
 import 'package:neatease_app/entity/comment_head.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
@@ -260,18 +259,7 @@ class _SheetDetailState extends State<SheetDetail> {
                               (context, index) {
                                 var d = sheet.tracks[index];
                                 return WidgetMusicListItem(
-                                  SongBeanEntity(
-                                    picUrl: d.al.picUrl,
-                                    mv: d.mv,
-                                    like: Application.loveList
-                                                .indexOf('${d.id}') !=
-                                            -1
-                                        ? true
-                                        : false,
-                                    id: '${d.id}',
-                                    name: d.name,
-                                    singer: d.ar.first.name,
-                                  ),
+                                  d,
                                   onTap: () {
                                     playSongs(model, index);
                                   },

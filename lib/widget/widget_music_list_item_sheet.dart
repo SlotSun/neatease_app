@@ -88,7 +88,7 @@ class WidgetMusicListItemSheet extends StatelessWidget {
                     : IconButton(
                         icon: Icon(Icons.play_circle_outline),
                         onPressed: () {
-                          _model.togglePlay();
+                          _model.pausePlay();
                           NavigatorUtil.goPlayVideoPage(context, id: _data.mv);
                         },
                         color: Colors.grey,

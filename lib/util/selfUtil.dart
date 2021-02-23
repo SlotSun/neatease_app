@@ -9,7 +9,6 @@ import 'package:neatease_app/entity/play_history_entity.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/entity/song_info.dart';
-import 'package:neatease_app/entity/today_song_entity.dart';
 import 'package:path_provider/path_provider.dart';
 
 class SelfUtil {
@@ -123,22 +122,6 @@ class SelfUtil {
         mv: element.song.mv,
         singer: '${element.song.ar.map((a) => a.name).toList().join('/')}',
       );
-      info.add(songInfo);
-    });
-    return info;
-  }
-
-  static Future<List<SongInfo>> todayToSongInfo(
-      List<TodaySongRecommand> songs) async {
-    List<SongInfo> info = [];
-    await Future.forEach(songs, (TodaySongRecommand element) {
-      SongInfo songInfo = SongInfo(
-          songId: '${element.id}',
-          duration: element.duration,
-          songCover: '${element.album.picUrl}',
-          songUrl: '',
-          songName: '${element.name}',
-          artist: '${element.artists[0].name}');
       info.add(songInfo);
     });
     return info;

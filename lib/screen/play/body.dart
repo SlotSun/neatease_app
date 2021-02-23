@@ -289,6 +289,12 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                               icon: Icon(Icons.more_vert),
                               onPressed: () {
                                 showModalBottomSheet(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10))),
+                                    backgroundColor:
+                                        Colors.white.withOpacity(0.9),
                                     isDismissible: true,
                                     isScrollControlled: false,
                                     context: context,

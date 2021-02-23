@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:neatease_app/entity/play_history_entity.dart';
-import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
 import 'package:neatease_app/util/net_util.dart';
@@ -58,13 +57,7 @@ class _HistoryState extends State<History> {
                           itemBuilder: (context, index) {
                             var d = list[index];
                             return WidgetMusicListItem(
-                              SongBeanEntity(
-                                name: d.song.name,
-                                id: '${d.song.id}',
-                                singer:
-                                    '${d.song.ar.map((a) => a.name).toList().join('/')}',
-                                mv: d.song.mv,
-                              ),
+                              d.song,
                               onTap: () {
                                 playSongs(model, index);
                               },
