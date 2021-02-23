@@ -10,13 +10,12 @@ class CommentInputWidget extends StatelessWidget {
 
   final CommentCallback onTapComment;
 
-
   CommentInputWidget(this.onTapComment);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setWidth(80),
+      height: ScreenUtil().setWidth(70),
       color: Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -63,10 +62,11 @@ class CommentInputWidget extends StatelessWidget {
       ),
     );
   }
+
   ///发送评论：待回填评论
-  void sendComment(){
+  void sendComment() {
     String text = _editingController.text;
-    if(text.isEmpty){
+    if (text.isEmpty) {
       Fluttertoast.showToast(msg: '评论内容不能为空！');
       return;
     }

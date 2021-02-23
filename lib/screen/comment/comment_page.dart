@@ -265,71 +265,106 @@ class _CommentPageState extends State<CommentPage> {
     }
     return false;
   }
-}
 
-Widget _talkHotItem(SongTalkHotcommants hotcommants) {
-  return Container(
-    child: Wrap(
-      children: <Widget>[
-        ListTile(
-          contentPadding: EdgeInsets.only(left: 0, right: 10),
-          dense: true,
-          leading: ImageHelper.getImage(
-              hotcommants.user.avatarUrl + "?param=80y80",
-              height: 35,
-              isRound: true),
-          title: Text(hotcommants.user.nickname, style: common14TextStyle),
-          subtitle: Text(
-              '${DateTime.fromMillisecondsSinceEpoch(hotcommants.time)}',
-              style: TextStyle(color: Colors.grey)),
-          trailing: Text(
-            '${hotcommants.likedCount > 10000 ? '${(hotcommants.likedCount / 10000).toStringAsFixed(1)}w' : hotcommants.likedCount} 赞',
-            style: TextStyle(color: Colors.blue),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 55, right: 10),
-          child: Text(
-            hotcommants.content,
-            style: TextStyle(height: 1.5),
-          ),
-        ),
-      ],
-    ),
-  );
-}
+  ///给评论点赞:
+  Future<bool> _commentLike(id, cid, t, type) async {
+    var answer = await comment_like(
+        {'id': id, 'cid': cid, 't': t, 'type': type},
+        await SelfUtil.getCookie());
+    if (answer.status == 200) {
+      return true;
+    } else {
+      print('${answer.status}' + ' ${cid}');
+    }
+    return false;
+  }
 
-Widget _talkItem(SongTalkCommants commants) {
-  return Container(
-    child: Wrap(
-      children: <Widget>[
-        ListTile(
-          contentPadding: EdgeInsets.only(left: 0, right: 10),
-          dense: true,
-          leading: ImageHelper.getImage(
-              commants.user.avatarUrl + "?param=80y80",
-              height: 35,
-              isRound: true),
-          title: Text(
-            commants.user.nickname,
-            style: common14TextStyle,
+  Widget _talkHotItem(SongTalkHotcommants hotcommants) {
+    return Container(
+      child: Wrap(
+        children: <Widget>[
+          ListTile(
+            contentPadding: EdgeInsets.only(left: 0, right: 10),
+            dense: true,
+            leading: ImageHelper.getImage(
+                hotcommants.user.avatarUrl + "?param=80y80",
+                height: 35,
+                isRound: true),
+            title: Text(hotcommants.user.nickname, style: common14TextStyle),
+            subtitle: Text(
+                '${DateTime.fromMillisecondsSinceEpoch(hotcommants.time)}',
+                style: TextStyle(color: Colors.grey)),
+            //点赞
+            trailing: InkWell(
+              onTap: () {
+                print('点赞了');
+                _commentLike(
+                        widget.commentHead.id,
+                        hotcommants.user.userId,
+                        !hotcommants.liked ? 'like' : 'unlike',
+                        widget.commentHead.type)
+                    .then((value) {
+                  if (value == true) {
+                    Fluttertoast.showToast(
+                        msg: hotcommants.liked ? '取消成功' : '点赞成功');
+                    setState(() {
+                      hotcommants.liked = !hotcommants.liked;
+                      hotcommants.likedCount++;
+                    });
+                  }
+                });
+              },
+              child: Text(
+                '${hotcommants.likedCount > 10000 ? '${(hotcommants.likedCount / 10000).toStringAsFixed(1)}w' : hotcommants.likedCount} 赞',
+                style: TextStyle(
+                    color: hotcommants.liked ? Colors.red[400] : Colors.blue),
+              ),
+            ),
           ),
-          subtitle: Text(
-              '${DateTime.fromMillisecondsSinceEpoch(commants.time)}',
-              style: TextStyle(color: Colors.grey)),
-          trailing: Text(
-            '${commants.likedCount > 10000 ? '${(commants.likedCount / 10000).toStringAsFixed(1)}w' : commants.likedCount} 赞',
-            style: TextStyle(color: Colors.blue),
+          Container(
+            padding: EdgeInsets.only(left: 55, right: 10),
+            child: Text(
+              hotcommants.content,
+              style: TextStyle(height: 1.5),
+            ),
           ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 55, right: 10),
-          child: Text(
-            commants.content,
-            style: TextStyle(height: 1.5),
+        ],
+      ),
+    );
+  }
+
+  Widget _talkItem(SongTalkCommants commants) {
+    return Container(
+      child: Wrap(
+        children: <Widget>[
+          ListTile(
+            contentPadding: EdgeInsets.only(left: 0, right: 10),
+            dense: true,
+            leading: ImageHelper.getImage(
+                commants.user.avatarUrl + "?param=80y80",
+                height: 35,
+                isRound: true),
+            title: Text(
+              commants.user.nickname,
+              style: common14TextStyle,
+            ),
+            subtitle: Text(
+                '${DateTime.fromMillisecondsSinceEpoch(commants.time)}',
+                style: TextStyle(color: Colors.grey)),
+            trailing: Text(
+              '${commants.likedCount > 10000 ? '${(commants.likedCount / 10000).toStringAsFixed(1)}w' : commants.likedCount} 赞',
+              style: TextStyle(color: Colors.blue),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
+          Container(
+            padding: EdgeInsets.only(left: 55, right: 10),
+            child: Text(
+              commants.content,
+              style: TextStyle(height: 1.5),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
