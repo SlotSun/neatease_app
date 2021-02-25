@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/util/net_util.dart';
@@ -31,6 +32,21 @@ class PlayListModel with ChangeNotifier {
   void addPlayListTrack(SheetDetailsPlaylistTrack track, int index) {
     NetUtils()
         .addPlaylistTracks('add', _selfCreatePlayList[index].id, '${track.id}');
+    if (index == 0) {
+      Application.loveList.add('${track.id}');
+      SpUtil.putStringList(LIKE_SONGS, Application.loveList);
+    }
+    _selfCreatePlayList[index].trackCount++;
+    notifyListeners();
+  }
+
+  void delPlayListTrack(SheetDetailsPlaylistTrack track, int index) {
+    NetUtils()
+        .addPlaylistTracks('del', _selfCreatePlayList[index].id, '${track.id}');
+    if (index == 0) {
+      Application.loveList.remove('${track.id}');
+      SpUtil.putStringList(LIKE_SONGS, Application.loveList);
+    }
     _selfCreatePlayList[index].trackCount++;
     notifyListeners();
   }
