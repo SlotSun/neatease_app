@@ -70,11 +70,11 @@ class PlayWidget extends StatelessWidget {
                       model.togglePlay();
                     }
                   },
-                  child: Image.asset(
+                  child: Icon(
                     model.curState == AudioPlayerState.PLAYING
-                        ? 'assets/images/pause.png'
-                        : 'assets/images/play.png',
-                    width: ScreenUtil().setWidth(30),
+                        ? Icons.pause_circle_outline_sharp
+                        : Icons.play_circle_outline_sharp,
+                    size: ScreenUtil().setWidth(40),
                   ),
                 ),
                 HEmptyView(15),

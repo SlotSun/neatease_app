@@ -1,5 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:neatease_app/andriod_service/android_service.dart';
 
+/*
+* 图片选择
+*
+* void _upload() {
+   if (file == null) return;
+   String base64Image = base64Encode(file.readAsBytesSync());
+   String fileName = file.path.split("/").last;
+
+   http.post(phpEndPoint, body: {
+     "image": base64Image,
+     "name": fileName,
+   }).then((res) {
+     print(res.statusCode);
+   }).catchError((err) {
+     print(err);
+   });
+ }
+* image_picker 0.6.7+22
+* */
 class AnchorRadioBody extends StatelessWidget {
   const AnchorRadioBody({Key key}) : super(key: key);
 
@@ -8,7 +29,16 @@ class AnchorRadioBody extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       child: Center(
-        child: Text('暂未开发'),
+        child: IconButton(
+          onPressed: () async {
+            int i = await AndroidService.getBattery();
+            // AndroidService.sendMessage();
+            // AndroidService.openSetting();
+            AndroidService.openView();
+            Fluttertoast.showToast(msg: '$i');
+          },
+          icon: Icon(Icons.pause_circle_outline_sharp),
+        ),
       ),
     );
     //   SingleChildScrollView(

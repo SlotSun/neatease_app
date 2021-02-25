@@ -356,12 +356,10 @@ class _CommentPageState extends State<CommentPage> {
                 _commentLike(
                         widget.commentHead.id,
                         commants.user.userId,
-                        !commants.liked ? 'like' : 'unlike',
+                        commants.liked ? 'unlike' : 'like',
                         widget.commentHead.type)
                     .then((value) {
                   if (value == true) {
-                    Fluttertoast.showToast(
-                        msg: commants.liked ? '取消成功' : '点赞成功');
                     setState(() {
                       commants.liked = !commants.liked;
                       commants.likedCount++;

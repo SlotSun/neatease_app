@@ -4,7 +4,7 @@ part of '../module.dart';
 Handler like_song = (query, cookie) {
   final data = {
     'trackId': query['id'],
-    'like': query['like'] == 'false' ? false : true,
+    'like': query['like'],
   };
   return request(
       'POST',

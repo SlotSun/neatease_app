@@ -2,17 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neatease_app/constant/constants.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/provider/play_list_model.dart';
 import 'package:neatease_app/provider/user_model.dart';
 import 'package:neatease_app/screen/dialog/create_playlist.dart';
+import 'package:neatease_app/screen/mine/sheet_manager/sheet_manager.dart';
 import 'package:neatease_app/util/cache_image.dart';
 import 'package:neatease_app/util/navigator_util.dart';
 import 'package:neatease_app/util/sp_util.dart';
-import 'package:neatease_app/widget/common_text_style.dart';
 import 'package:neatease_app/widget/loading.dart';
 import 'package:provider/provider.dart';
 
@@ -229,7 +228,12 @@ class _MinePageState extends State<MinePage>
                                   }),
                               IconButton(
                                   icon: Icon(Icons.more_vert),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return SheetManager();
+                                    }));
+                                  }),
                             ],
                           ),
                         ],
@@ -281,7 +285,12 @@ class _MinePageState extends State<MinePage>
                             children: <Widget>[
                               IconButton(
                                   icon: Icon(Icons.more_vert),
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return SheetManager();
+                                    }));
+                                  }),
                             ],
                           ),
                         ],
@@ -359,78 +368,25 @@ class _MinePageState extends State<MinePage>
 
   ///歌单项
   Widget _orderItem(PlayListModel model, SheetDetailsPlaylist orderPlaylist) {
-    return Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
-      //右侧滑动 ---左侧滑动为actions
-      secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'delete',
-          icon: Icons.delete,
-          color: kBackgroundColor,
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  title: Text(
-                    "删除歌单",
-                    style: bold16TextStyle,
-                  ),
-                  content: Text(
-                    "确定要删除歌单吗？",
-                    style: commonGrayTextStyle,
-                  ),
-                  actions: <Widget>[
-                    InkWell(
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        child: Text('取消'),
-                      ),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    InkWell(
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        child: Text('确认'),
-                      ),
-                      onTap: () {
-                        model.delPlayList(orderPlaylist).then((value) => value
-                            ? Fluttertoast.showToast(msg: '删除成功')
-                            : Fluttertoast.showToast(msg: '删除失败'));
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ]),
-            );
-          },
-        )
-      ],
-      child: ListTile(
-        dense: true,
-        contentPadding: EdgeInsets.symmetric(horizontal: 2),
-        leading: ImageHelper.getImage(
-            orderPlaylist.coverImgUrl + "?param=150y150",
-            height: ScreenUtil().setHeight(42),
-            isRound: true),
-        title: Text(
-          orderPlaylist.name,
-          style: TextStyle(fontSize: 14),
-        ),
-        subtitle: Text('${orderPlaylist.trackCount} 首单曲',
-            style: TextStyle(fontSize: 12)),
-        onTap: () {
-          if (orderPlaylist.trackCount == 0)
-            Fluttertoast.showToast(msg: "当前列表为空");
-          else
-            NavigatorUtil.goSheetDetailPage(context, orderPlaylist.id); //注意
-        },
+    return ListTile(
+      dense: true,
+      contentPadding: EdgeInsets.symmetric(horizontal: 2),
+      leading: ImageHelper.getImage(
+          orderPlaylist.coverImgUrl + "?param=150y150",
+          height: ScreenUtil().setHeight(42),
+          isRound: true),
+      title: Text(
+        orderPlaylist.name,
+        style: TextStyle(fontSize: 14),
       ),
+      subtitle: Text('${orderPlaylist.trackCount} 首单曲',
+          style: TextStyle(fontSize: 12)),
+      onTap: () {
+        if (orderPlaylist.trackCount == 0)
+          Fluttertoast.showToast(msg: "当前列表为空");
+        else
+          NavigatorUtil.goSheetDetailPage(context, orderPlaylist.id); //注意
+      },
     );
   }
 
