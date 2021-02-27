@@ -9,6 +9,7 @@ import 'package:neatease_app/constant/paly_state.dart';
 import 'package:neatease_app/entity/comment_head.dart';
 import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/song_bean_entity.dart';
+import 'package:neatease_app/provider/play_list_model.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/dialog/common_botton_sheet.dart';
 import 'package:neatease_app/screen/dialog/show_playlist_dialog.dart';
@@ -243,20 +244,26 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                         width: ScreenUtil().setWidth(300),
                         child: Row(
                           children: <Widget>[
-                            IconButton(
-                              color: curSong.like ? Colors.red : Colors.grey,
-                              icon: Icon(curSong.like
-                                  ? Icons.favorite
-                                  : Icons.favorite_border),
-                              onPressed: () {
-                                //应该继续修正用户播放列表的数据，待修复
-                                //如果当前不喜欢应该传喜欢收藏
-                                NetUtils()
-                                    .subSongs('${curSong.id}', !curSong.like);
-                                curSong.like = !curSong.like;
-                                setState(() {});
-                              },
-                            ),
+                            Consumer<PlayListModel>(builder: (_, pmodel, __) {
+                              return IconButton(
+                                color: curSong.like ? Colors.red : Colors.grey,
+                                icon: Icon(curSong.like
+                                    ? Icons.favorite
+                                    : Icons.favorite_border),
+                                onPressed: () {
+                                  //应该继续修正用户播放列表的数据，待修复
+                                  //如果当前不喜欢应该传喜欢收藏
+                                  // NetUtils()
+                                  //     .subSongs('${curSong.id}', !curSong.like);
+                                  //暂时使用添加到歌单实现喜欢功能
+                                  curSong.like
+                                      ? pmodel.delPlayListTrack(curSong, 0)
+                                      : pmodel.addPlayListTrack(curSong, 0);
+                                  curSong.like = !curSong.like;
+                                  setState(() {});
+                                },
+                              );
+                            }),
                             IconButton(
                               color: Colors.grey,
                               icon: Icon(Icons.save_alt),
@@ -289,6 +296,12 @@ class _PlayBodyState extends State<PlayBody> with TickerProviderStateMixin {
                               icon: Icon(Icons.more_vert),
                               onPressed: () {
                                 showModalBottomSheet(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10))),
+                                    backgroundColor:
+                                        Colors.white.withOpacity(0.9),
                                     isDismissible: true,
                                     isScrollControlled: false,
                                     context: context,

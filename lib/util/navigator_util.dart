@@ -19,7 +19,7 @@ class NavigatorUtil {
         clearStack: clearStack,
         transitionDuration: transitionDuration,
         transitionBuilder: transitionBuilder,
-        transition: TransitionType.material);
+        transition: TransitionType.inFromRight);
   }
 
   /// 登录页
@@ -53,7 +53,10 @@ class NavigatorUtil {
 
   /// 歌手详情
   static void goSingerDetailPage(BuildContext context, int id, {String type}) {
-    _navigateTo(context, "${Routes.singerDetail}?id=$id");
+    _navigateTo(
+      context,
+      "${Routes.singerDetail}?id=$id",
+    );
   }
 
   /// 播放MV页面：如何实现每次跳转都终结掉play

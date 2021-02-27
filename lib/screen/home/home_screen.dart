@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screen_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:neatease_app/andriod_service/android_back_top.dart';
+import 'package:neatease_app/andriod_service/android_service.dart';
 import 'package:neatease_app/api/module.dart';
 import 'package:neatease_app/application.dart';
 import 'package:neatease_app/constant/constants.dart';
@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   UserModel _userModel;
 
-  int _tabIndex = 1;
+  int _tabIndex = 0;
 
   @override
   void initState() {
@@ -237,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        AndroidBackTop.backDeskTop();
+        AndroidService.backDeskTop();
         return false;
       },
       child: Scaffold(
@@ -250,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen>
         backgroundColor: Colors.white,
         body: DefaultTabController(
           length: 3,
-          initialIndex: 1,
+          initialIndex: 0,
           child: SafeArea(
             bottom: false,
             child: Stack(

@@ -6,7 +6,6 @@ import 'package:neatease_app/entity/sheet_details_entity.dart';
 import 'package:neatease_app/entity/singer_album.dart';
 import 'package:neatease_app/entity/singer_mv.dart';
 import 'package:neatease_app/entity/singer_song.dart';
-import 'package:neatease_app/entity/song_bean_entity.dart';
 import 'package:neatease_app/provider/play_songs_model.dart';
 import 'package:neatease_app/screen/play/body.dart';
 import 'package:neatease_app/util/cache_image.dart';
@@ -204,17 +203,7 @@ class _SingerDetailState extends State<SingerDetail> {
                   return Column(
                     children: [
                       WidgetMusicListItem(
-                        SongBeanEntity(
-                          picUrl: r.al.picUrl,
-                          mv: r.mv,
-                          id: '${r.id}',
-                          name: r.name,
-                          like: Application.loveList.indexOf('${r.id}') != -1
-                              ? true
-                              : false,
-                          singer:
-                              '${r.ar.map((a) => a.name).toList().join('/')}',
-                        ),
+                        r,
                         onTap: () {
                           playSongs(model, index);
                         },

@@ -346,7 +346,7 @@ class NetUtils {
   }
 
   ///收藏/取消收藏 歌曲
-  void subSongs(String id, bool like) async {
+  Future<bool> subSongs(String id, bool like) async {
     var answer =
         await like_song({'id': id, 'like': like}, await SelfUtil.getCookie());
     if (answer.status == 200) {
@@ -356,6 +356,10 @@ class NetUtils {
         Application.loveList.remove(id);
       }
       SpUtil.putStringList(LIKE_SONGS, Application.loveList);
+      return true;
+    } else {
+      print('${answer.status}');
+      return false;
     }
   }
 

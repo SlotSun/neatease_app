@@ -59,37 +59,42 @@ class _CommonBottomSheetState extends State<CommonBottomSheet> {
     return Container(
       width: ScreenUtil().screenWidth,
       height: 50,
-      child: InkWell(
-        onTap: list.function,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              list.iconData,
-              color: Colors.lightBlue,
-              size: 35,
-            ),
-            Expanded(
-              child: Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 10),
-                height: 50,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: 1,
-                      color: Color(0xffe5e5e5),
+      child: AbsorbPointer(
+        absorbing: list.ban,
+        child: InkWell(
+          onTap: list.function,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                list.iconData,
+                color: list.ban ? Colors.grey : Colors.lightBlue[300],
+                size: 35,
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 10),
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 1,
+                        color: Color(0xffe5e5e5),
+                      ),
                     ),
                   ),
-                ),
-                child: Text(
-                  list.title,
-                  style: TextStyle(fontSize: 16),
+                  child: Text(
+                    list.title,
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: list.ban ? Colors.grey : Colors.black),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -100,7 +105,11 @@ class BottomSheetMenu {
   String title;
   Function function;
   IconData iconData;
+  bool ban;
 
   BottomSheetMenu(
-      {@required this.iconData, this.function, @required this.title});
+      {@required this.iconData,
+      this.function,
+      @required this.title,
+      this.ban = false});
 }

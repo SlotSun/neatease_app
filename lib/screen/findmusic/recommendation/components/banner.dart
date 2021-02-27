@@ -3,7 +3,8 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:neatease_app/entity/banner_entity.dart';
 import 'package:neatease_app/util/cache_image.dart';
 
-Widget buildBanner(List<BannerBanner> banners) {
+//当前栈顶不为home时应该停止刷新和滚动
+Widget buildBanner(List<BannerBanner> banners, bool circle) {
   return Container(
     height: 116,
     child: Swiper(
@@ -13,7 +14,7 @@ Widget buildBanner(List<BannerBanner> banners) {
         Swiper加一个LocalKey即可解决，我这里加了个UniqueKey，属于一个LocalKey
       */
       key: UniqueKey(),
-      autoplay: true,
+      autoplay: circle,
       duration: 500,
       autoplayDelay: 4000,
       itemBuilder: (BuildContext context, int index) {

@@ -36,6 +36,7 @@ class _RecBodyState extends State<RecBody> with AutomaticKeepAliveClientMixin {
   List<BannerBanner> banners = [];
   List<NewSongResult> newSong = [];
   List<PersonalMVResult> pMV = [];
+  bool circle = true;
 
   // EasyRefreshController _controller = EasyRefreshController();
   @override
@@ -87,6 +88,9 @@ class _RecBodyState extends State<RecBody> with AutomaticKeepAliveClientMixin {
         sheet: sheet,
         size: size,
         press: () {
+          //跳转页面将circle关闭：返回界面应该circle打开
+          circle = false;
+          setState(() {});
           NavigatorUtil.goSheetDetailPage(context, sheet.id);
         },
       ));
@@ -102,7 +106,7 @@ class _RecBodyState extends State<RecBody> with AutomaticKeepAliveClientMixin {
         onRefresh: _onRefresh,
         slivers: [
           SliverToBoxAdapter(
-            child: buildBanner(banners),
+            child: buildBanner(banners, circle),
           ),
           SliverToBoxAdapter(
             child: FMAndEveryComAndHotButton(size: size),
